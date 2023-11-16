@@ -8,8 +8,10 @@ public interface GenericRepository<T> extends JpaRepository<T, Long> {
 
 	T save();
 
-	boolean exists(long id);
-
+	boolean exists(T t);
+	
+	boolean exists(Long id);
+	
 	T deleteById(long id);
 
 	T delete();

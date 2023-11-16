@@ -22,6 +22,10 @@ public class GenericService<T> {
 		return genericRepository.exists(id);
 	}
 	
+	public boolean existeEntidad(T t) {
+		return genericRepository.exists(t);
+	}
+	
 	public void eliminarConId(Long id) {
 		genericRepository.deleteById(id);
 	}

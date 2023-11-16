@@ -24,20 +24,20 @@ public class UsuarioController {
 	private UsuarioService usuarioService;
 
 	// Creo un usuario
-//	@PostMapping
-//	public ResponseEntity<void> createUser(@RequestBody Usuario usuario) {
-//	System.out.println("Creando el usuario" + usuario.getNombre());
-//	if (usuarioService.existe(usuario)) {
-//	System.out.println("Ya existe un usuario con nombre " + usuario.getNombre());
-//	return new ResponseEntity<void>(HttpStatus.CONFLICT); //Código de respuesta 409  
-//	}
-//	usuarioService.actualizar(usuario);
-//	return new ResponseEntity<Usuario>(headers, HttpStatus.CREATED);
-//	}
+	//@PostMapping
+	//public ResponseEntity<Void> crearUsuario(@RequestBody Usuario usuario) {
+	//System.out.println("Creando el usuario" + usuario.getNombre());
+	//if (usuarioService.existeEntidad(usuario)) {
+		//System.out.println("Ya existe un usuario con nombre " + usuario.getNombre());
+		//return new ResponseEntity<Void>(HttpStatus.CONFLICT); //Código de respuesta 409  
+	//}
+	//usuarioService.actualizar(usuario);
+	//return new ResponseEntity<Usuario>(headers, HttpStatus.CREATED);
+	//}
 
 	// Recupero todos los usuarios
 	@GetMapping
-	public ResponseEntity<List<Usuario>> listAllUsers() {
+	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
 			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
@@ -59,22 +59,24 @@ public class UsuarioController {
 
 	// Actualizo un usuario
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> updateUser(@PathVariable("id") long id, @RequestBody Usuario usuario) {
+	public ResponseEntity<Usuario> actualizarUsuario(@PathVariable("id") long id, @RequestBody Usuario usuario) {
 		System.out.println("Actualizando el usuario " + id);
-		Usuario currentUser = usuarioService.recuperarPorId(id);
-		if (currentUser == null) {
-			System.out.println("User with id " + id + " not found");
+		Usuario currentUsuario = usuarioService.recuperarPorId(id);
+		if (currentUsuario == null) {
+			System.out.println("Usuario con id " + id + " not found");
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		currentUser.setNombre(usuario.getNombre());
+		currentUsuario.setNombre(usuario.getNombre());
 
-		usuarioService.actualizar(currentUser);
-		return new ResponseEntity<Usuario>(currentUser, HttpStatus.OK);
+		// y todos los demas setters
+
+		usuarioService.actualizar(currentUsuario);
+		return new ResponseEntity<Usuario>(currentUsuario, HttpStatus.OK);
 	}
 
 	// Elimino un usuario
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Usuario> deleteUser(@PathVariable("id") long id) {
+	public ResponseEntity<Usuario> eliminarUsuario(@PathVariable("id") long id) {
 		System.out.println("Obteniendo y eliminando el usuario con id " + id);
 		Usuario user = usuarioService.recuperarPorId(id);
 		if (user == null) {
@@ -87,7 +89,7 @@ public class UsuarioController {
 
 	// Elimino todos los usuarios
 	@DeleteMapping
-	public ResponseEntity<Usuario> deleteAllUsers() {
+	public ResponseEntity<Usuario> eliminarTodosLosUsuarios() {
 		System.out.println("Eliminando todos los usuarios");
 		usuarioService.eliminarTodos();
 		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
@@ -105,6 +107,3 @@ public class UsuarioController {
 // validaciones
 // return this.usuarioService.crear(usuario);
 // }
-
-
-
