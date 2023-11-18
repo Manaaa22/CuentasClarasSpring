@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,15 @@ import com.example.CuentasClarasSpring.services.GrupoService;
 @RequestMapping("/grupo")     //deberia ir esto? me da error ("/users", produces = MediaType.APPLICATION_JSON_VALUE)
 
 public class GrupoController {
-	@Autowired(required=true)
+	@Autowired
 	private GrupoService grupoService;
 	
-//crear un grupo, primero arreglar el crearUsuario
-	
+	 //Creo un grupo
+	@PostMapping
+	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
+	grupoService.actualizar(grupo);
+	return new ResponseEntity<Grupo>(HttpStatus.CREATED);
+	}
 	
 	
 	//Listado de todos los gastos de un grupo

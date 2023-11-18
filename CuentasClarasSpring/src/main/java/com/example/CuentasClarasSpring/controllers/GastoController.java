@@ -4,13 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.CuentasClarasSpring.componentes.Gasto;
-import com.example.CuentasClarasSpring.componentes.Usuario;
 import com.example.CuentasClarasSpring.services.GastoService;
 
 @RestController
@@ -20,12 +20,19 @@ public class GastoController {
 	private GastoService gastoService;
 	
 	
-	//alta de una gasto
+	//alta de un gasto
+
+	@PostMapping
+	public ResponseEntity<Gasto> crearGasto(@RequestBody Gasto gasto	) {
+
+	gastoService.actualizar(gasto);
+	return new ResponseEntity<Gasto>(HttpStatus.CREATED);
+	}
 	
 	
 	//edicion de un gasto
 	@PutMapping("/{id}")
-	public ResponseEntity<Gasto> actualizarUsuario(@PathVariable("id") long id, @RequestBody Gasto gasto) {
+	public ResponseEntity<Gasto> editarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto) {
 		System.out.println("Actualizando el gasto " + id);
 		Gasto currentGasto = gastoService.recuperarPorId(id);
 		if (currentGasto == null) {

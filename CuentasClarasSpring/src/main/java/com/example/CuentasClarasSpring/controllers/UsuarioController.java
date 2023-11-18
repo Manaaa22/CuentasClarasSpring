@@ -27,9 +27,9 @@ public class UsuarioController {
 	@PostMapping
 	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
 	
-	System.out.println("Creando el usuario" + usuario.getNombre());
+	System.out.println("Creando el usuario" + usuario.getUsuario());
 	if (usuarioService.existeEntidad(usuario)) {
-		System.out.println("Ya existe un usuario con nombre " + usuario.getNombre());
+		System.out.println("Ya existe un usuario con nombre " + usuario.getUsuario());
 		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT); //C�digo de respuesta 409  
 	}
 	usuarioService.actualizar(usuario);
@@ -37,7 +37,7 @@ public class UsuarioController {
 	}
 
 	// Recupero todos los usuarios
-	@GetMapping("/list")
+	@GetMapping()
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
