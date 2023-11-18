@@ -3,7 +3,7 @@ package com.example.CuentasClarasSpring;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import componentes.Usuario;
+import com.example.CuentasClarasSpring.componentes.Usuario;
 
 @SpringBootTest
 public class UsuarioTests {

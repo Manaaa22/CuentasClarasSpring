@@ -1,10 +1,10 @@
-package controllers;
+package com.example.CuentasClarasSpring.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/saldo")
-public class SaldoController {
+@RequestMapping("/categoria")
+public class CategoriaController {
 
 }

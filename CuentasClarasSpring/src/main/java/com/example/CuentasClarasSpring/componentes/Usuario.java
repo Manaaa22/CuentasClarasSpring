@@ -1,4 +1,4 @@
-package componentes;
+package com.example.CuentasClarasSpring.componentes;
 
 import java.util.List;
 

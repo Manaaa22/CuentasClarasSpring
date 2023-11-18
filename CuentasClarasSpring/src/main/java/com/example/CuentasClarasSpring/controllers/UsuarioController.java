@@ -1,4 +1,4 @@
-package controllers;
+package com.example.CuentasClarasSpring.controllers;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import componentes.Usuario;
-import services.UsuarioService;
+import com.example.CuentasClarasSpring.componentes.Usuario;
+import com.example.CuentasClarasSpring.services.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
@@ -23,20 +23,21 @@ public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
 
-	// Creo un usuario
-	//@PostMapping
-	//public ResponseEntity<Void> crearUsuario(@RequestBody Usuario usuario) {
-	//System.out.println("Creando el usuario" + usuario.getNombre());
-	//if (usuarioService.existeEntidad(usuario)) {
-		//System.out.println("Ya existe un usuario con nombre " + usuario.getNombre());
-		//return new ResponseEntity<Void>(HttpStatus.CONFLICT); //Código de respuesta 409  
-	//}
-	//usuarioService.actualizar(usuario);
-	//return new ResponseEntity<Usuario>(headers, HttpStatus.CREATED);
-	//}
+	 //Creo un usuario
+	@PostMapping
+	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+	
+	System.out.println("Creando el usuario" + usuario.getNombre());
+	if (usuarioService.existeEntidad(usuario)) {
+		System.out.println("Ya existe un usuario con nombre " + usuario.getNombre());
+		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT); //Cï¿½digo de respuesta 409  
+	}
+	usuarioService.actualizar(usuario);
+	return new ResponseEntity<Usuario>(HttpStatus.CREATED);
+	}
 
 	// Recupero todos los usuarios
-	@GetMapping
+	@GetMapping("/list")
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {

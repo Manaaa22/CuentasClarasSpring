@@ -1,4 +1,4 @@
-package componentes;
+package com.example.CuentasClarasSpring.componentes;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;

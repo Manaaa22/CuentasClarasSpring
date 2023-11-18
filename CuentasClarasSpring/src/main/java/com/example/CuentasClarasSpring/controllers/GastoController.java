@@ -1,4 +1,4 @@
-package controllers;
+package com.example.CuentasClarasSpring.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import componentes.Gasto;
-import componentes.Usuario;
-import services.GastoService;
+import com.example.CuentasClarasSpring.componentes.Gasto;
+import com.example.CuentasClarasSpring.componentes.Usuario;
+import com.example.CuentasClarasSpring.services.GastoService;
 
 @RestController
 @RequestMapping("/gasto")

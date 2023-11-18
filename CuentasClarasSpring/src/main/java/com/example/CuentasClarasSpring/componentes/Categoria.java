@@ -1,5 +1,5 @@
 
-package componentes;
+package com.example.CuentasClarasSpring.componentes;
 import jakarta.persistence.*;
 
 @Entity
