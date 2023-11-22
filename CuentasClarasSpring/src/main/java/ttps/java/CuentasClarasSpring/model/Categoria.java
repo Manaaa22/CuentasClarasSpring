@@ -3,18 +3,20 @@ package ttps.java.CuentasClarasSpring.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="Categorias")
+@Table(name="categorias")
 public class Categoria {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idCategoria;
 	private String tipo;
 	private String imagen;
+	private String nombre;
 	
 	public Categoria() {
 		super();
 	}
 	
-	public Categoria(String tipo, String imagen) {
+	public Categoria(String nombre,String tipo, String imagen) {
+		this.setNombre(nombre);
 		this.tipo = tipo;
 		this.imagen = imagen;
 	}
@@ -35,6 +37,14 @@ public class Categoria {
 	}
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 	
 }

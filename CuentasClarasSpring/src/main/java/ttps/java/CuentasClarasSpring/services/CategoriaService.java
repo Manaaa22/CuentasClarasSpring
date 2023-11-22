@@ -49,6 +49,9 @@ public class CategoriaService  {
 		Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
 	    return optionalCategoria.orElse(null);
 	}
-
+	
+	public Categoria recuperarPorNombre(String nombre) {
+		return categoriaRepository.findByNombre(nombre);
+	}
 
 }
