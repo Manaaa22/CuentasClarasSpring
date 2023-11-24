@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 public class Saldo {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idSaldo")
 	private Long idSaldo;
 	private BigDecimal monto;
 	@ManyToOne

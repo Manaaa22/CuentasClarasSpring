@@ -28,7 +28,9 @@ public class GrupoService  {
 		List<Saldo> saldos = new ArrayList<Saldo>();
 		for(Usuario user: grupo.getIntegrantes()) {
 			Saldo s = new Saldo(BigDecimal.valueOf(0),user);
+			System.out.println(s.getMonto() + s.getUsuario().getNombre());
 			saldos.add(saldoService.crear(s));
+			user.setSaldos(saldos);
 		}
 		grupo.setSaldos(saldos);
 		List<Gasto> gastos = new ArrayList<Gasto>();

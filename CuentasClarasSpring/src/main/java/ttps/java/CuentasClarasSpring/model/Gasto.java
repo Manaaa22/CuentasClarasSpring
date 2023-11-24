@@ -22,7 +22,7 @@ public class Gasto {
 	@JoinColumn(referencedColumnName="idUsuario")
 	private Usuario usuario;
 	@OneToMany
-	@JoinColumn(name="idSaldo")
+	@JoinColumn(name="idGasto")
 	private List<Saldo> saldos;
 	private String imagen;
 	

@@ -18,7 +18,7 @@ public class Grupo {
 	private Categoria categoria;
 	
 	@OneToMany
-	@JoinColumn(name="idSaldo")
+	@JoinColumn(name="idGrupo")
 	private List<Saldo> saldos;
 	
 	@ManyToMany(mappedBy="grupos")
