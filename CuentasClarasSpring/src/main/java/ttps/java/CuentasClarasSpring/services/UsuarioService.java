@@ -29,9 +29,9 @@ public class UsuarioService {
 		return usuarioRepository.existsById(id);
 	}
 	
-	public boolean existeEntidad(Usuario usuario) {  //
-		return usuarioRepository.existsById(usuario.getIdUsuario());
-	}
+	public boolean existeUsuario(Usuario usuario) {  //
+		return usuarioRepository.existsByUsuario(usuario.getUsuario());
+		}
 	
 	public void eliminarConId(Long id) {  //
 		usuarioRepository.deleteById(id);

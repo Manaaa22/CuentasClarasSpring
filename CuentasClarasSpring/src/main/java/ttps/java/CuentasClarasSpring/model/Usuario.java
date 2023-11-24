@@ -9,11 +9,11 @@ import jakarta.persistence.*;
 public class Usuario {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idUsuario;
-	@Column(name="usuario",unique=true)
+	//@Column(name="usuario",unique=true)
 	private String usuario;  
-	private String nombre;
+	private String nombre; 
 	private String contrasenia;
-	@Column(name="email",unique=true)
+	//@Column(name="email",unique=true)
 	private String email;
 	private String foto;
 	
