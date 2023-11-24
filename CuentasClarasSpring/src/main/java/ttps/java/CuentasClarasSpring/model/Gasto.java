@@ -13,7 +13,6 @@ public class Gasto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idGasto;
 	private BigDecimal monto;
-	@JsonFormat(pattern="yyyy-MM-dd")
 	private Calendar fecha;
 	private Integer tipoDivision;
 	@ManyToOne
