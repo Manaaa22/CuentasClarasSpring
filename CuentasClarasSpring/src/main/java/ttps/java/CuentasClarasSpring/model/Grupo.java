@@ -13,7 +13,7 @@ public class Grupo {
 	private String nombre;
 	private String imagen;
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.MERGE)
 	@JoinColumn(referencedColumnName="idCategoria")
 	private Categoria categoria;
 	
