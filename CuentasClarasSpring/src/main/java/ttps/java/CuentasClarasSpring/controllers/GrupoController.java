@@ -25,10 +25,10 @@ public class GrupoController {
 	private GrupoService grupoService;
 	
 	 //Creo un grupo
-	@PostMapping
+	@PostMapping("/crearGrupo")
 	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
-	grupoService.actualizar(grupo);
-	return new ResponseEntity<Grupo>(HttpStatus.CREATED);
+		Grupo nuevoGrupo = grupoService.crear(grupo);
+		return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
 	}
 	
 	

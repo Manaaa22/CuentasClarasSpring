@@ -1,6 +1,8 @@
 package ttps.java.CuentasClarasSpring.model;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -32,15 +34,15 @@ public class Grupo {
 		super();
 	}
  
- public Grupo(String nombre, String imagen, Categoria categoria, List<Saldo> saldos,
-		List<Usuario> integrantes, List<Gasto> gastos, List<Pago> pagos) {
+ public Grupo(String nombre, String imagen, Categoria categoria,
+		List<Usuario> integrantes) {
 	this.nombre = nombre;
 	this.imagen = imagen;
 	this.categoria = categoria;
-	this.saldos = saldos;
+	this.saldos = new ArrayList<Saldo>();
 	this.integrantes = integrantes;
-	this.gastos = gastos;
-	this.pagos = pagos;
+	this.gastos = new ArrayList<Gasto>();
+	this.pagos = new ArrayList<Pago>();
 }
 
 public Long getIdGrupo() {
