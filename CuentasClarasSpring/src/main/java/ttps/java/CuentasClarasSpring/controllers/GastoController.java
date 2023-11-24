@@ -1,8 +1,11 @@
 package ttps.java.CuentasClarasSpring.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import ttps.java.CuentasClarasSpring.model.Gasto;
+import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.services.GastoService;
 
 @RestController
@@ -47,5 +51,10 @@ public class GastoController {
 
 		gastoService.actualizar(currentGasto);
 		return new ResponseEntity<Gasto>(currentGasto, HttpStatus.OK);
+	}
+	
+	@GetMapping("/mostrarGastos")
+	public ResponseEntity<List<Gasto>> recuperarTodos(){
+		return new ResponseEntity<List<Gasto>> (gastoService.recuperarTodos(), HttpStatus.OK);
 	}
 }
