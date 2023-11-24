@@ -42,7 +42,7 @@ public class GastoController {
 		currentGasto.setTipoDivision(gasto.getTipoDivision());
 		currentGasto.setImagen(gasto.getImagen());
 		
-
+		System.out.println("Se actualizo gasto con id " + id );
 		gastoService.actualizar(currentGasto);
 		return new ResponseEntity<Gasto>(currentGasto, HttpStatus.OK);
 	}
