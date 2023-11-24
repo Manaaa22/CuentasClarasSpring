@@ -2,6 +2,9 @@ package ttps.java.CuentasClarasSpring.model;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +13,7 @@ public class Gasto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idGasto;
 	private BigDecimal monto;
+	@JsonFormat(pattern="yyyy-MM-dd")
 	private Calendar fecha;
 	private Integer tipoDivision;
 	@ManyToOne
