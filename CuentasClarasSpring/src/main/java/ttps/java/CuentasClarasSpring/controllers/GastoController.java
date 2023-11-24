@@ -18,19 +18,17 @@ import ttps.java.CuentasClarasSpring.services.GastoService;
 public class GastoController {
 	@Autowired
 	private GastoService gastoService;
-	
-	
-	//alta de un gasto
+
+	// alta de un gasto
 
 	@PostMapping
 	public ResponseEntity<Gasto> crearGasto(@RequestBody Gasto gasto) {
-
-	gastoService.actualizar(gasto);
-	return new ResponseEntity<Gasto>(HttpStatus.CREATED);
+		gastoService.actualizar(gasto);
+		System.out.println("Se creo un gasto");
+		return new ResponseEntity<Gasto>(HttpStatus.CREATED); // 201
 	}
-	
-	
-	//edicion de un gasto
+
+	// edicion de un gasto
 	@PutMapping("/{id}")
 	public ResponseEntity<Gasto> editarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto) {
 		System.out.println("Actualizando el gasto " + id);
@@ -40,11 +38,11 @@ public class GastoController {
 			return new ResponseEntity<Gasto>(HttpStatus.NOT_FOUND);
 		}
 		currentGasto.setMonto(gasto.getMonto());
+		currentGasto.setFecha(gasto.getFecha());
 		currentGasto.setTipoDivision(gasto.getTipoDivision());
-		currentGasto.setCategoria(gasto.getCategoria());
-
-		// y todos los demas setters?
-
+		currentGasto.setImagen(gasto.getImagen());
+		
+		System.out.println("Se actualizo gasto con id " + id );
 		gastoService.actualizar(currentGasto);
 		return new ResponseEntity<Gasto>(currentGasto, HttpStatus.OK);
 	}
