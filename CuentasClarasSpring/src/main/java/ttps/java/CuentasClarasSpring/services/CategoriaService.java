@@ -15,6 +15,10 @@ public class CategoriaService  {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	public Categoria crear(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+	
 	public Categoria actualizar(Categoria categoria) {
 		// validaciones
 		return categoriaRepository.save(categoria);
