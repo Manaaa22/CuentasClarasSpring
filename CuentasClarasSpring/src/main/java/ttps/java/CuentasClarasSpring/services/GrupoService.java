@@ -22,21 +22,21 @@ public class GrupoService  {
 	private GrupoRepository grupoRepository;
 	@Autowired
 	private SaldoService saldoService;
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	
 	public Grupo crear(Grupo grupo) {
 		List<Saldo> saldos = new ArrayList<Saldo>();
-		for(Usuario user: grupo.getIntegrantes()) {
+		List<Usuario> integrantes = grupo.getIntegrantes();
+		if(integrantes != null) {
+		for(Usuario user: integrantes) {
 			Saldo s = new Saldo(BigDecimal.valueOf(0),user);
 			System.out.println(s.getMonto() + s.getUsuario().getNombre());
 			saldos.add(saldoService.crear(s));
-			user.setSaldos(saldos);
+		}
 		}
 		grupo.setSaldos(saldos);
-		List<Gasto> gastos = new ArrayList<Gasto>();
-		grupo.setGastos(gastos);
-		List<Pago> pagos = new ArrayList<Pago>();
-		grupo.setPagos(pagos);
 		return grupoRepository.save(grupo);
 	}
 	

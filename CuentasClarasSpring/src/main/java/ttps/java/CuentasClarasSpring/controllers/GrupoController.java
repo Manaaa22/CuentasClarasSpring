@@ -31,6 +31,10 @@ public class GrupoController {
 		return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<Grupo>> recuperarTodos(){
+		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
+	}
 	
 	//Listado de todos los gastos de un grupo
 	@GetMapping("/{id}")
