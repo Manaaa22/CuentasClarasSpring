@@ -23,7 +23,7 @@ public class GastoController {
 	//alta de un gasto
 
 	@PostMapping
-	public ResponseEntity<Gasto> crearGasto(@RequestBody Gasto gasto	) {
+	public ResponseEntity<Gasto> crearGasto(@RequestBody Gasto gasto) {
 
 	gastoService.actualizar(gasto);
 	return new ResponseEntity<Gasto>(HttpStatus.CREATED);

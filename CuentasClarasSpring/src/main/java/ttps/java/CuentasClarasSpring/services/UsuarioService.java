@@ -29,8 +29,12 @@ public class UsuarioService {
 		return usuarioRepository.existsById(id);
 	}
 	
-	public boolean existeEntidad(Usuario usuario) {  //
-		return usuarioRepository.existsById(usuario.getIdUsuario());
+	public boolean existeUsuario(Usuario usuario) {  //
+		return usuarioRepository.existsByUsuario(usuario.getUsuario());
+		}
+	
+	public boolean existeUsuarioContrasenia(String usuario, String contrasenia) {
+		return usuarioRepository.existsByUsuarioAndContrasenia(usuario, contrasenia);
 	}
 	
 	public void eliminarConId(Long id) {  //
