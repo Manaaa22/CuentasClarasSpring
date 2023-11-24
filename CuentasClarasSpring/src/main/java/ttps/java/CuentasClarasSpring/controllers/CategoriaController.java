@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +18,12 @@ import ttps.java.CuentasClarasSpring.services.CategoriaService;
 public class CategoriaController {
 	@Autowired
 	private CategoriaService catService;
+	
+	@PostMapping("/crearCategoria")
+	public ResponseEntity<Categoria> crear(@RequestBody Categoria categoria){
+		Categoria cat = catService.crear(categoria);
+		return new ResponseEntity<Categoria>(cat, HttpStatus.CREATED);
+	}
 	
 	@GetMapping(value = "/{nombre}")
 	public ResponseEntity<Categoria> getByNombre(@PathVariable("nombre") String nombre) {

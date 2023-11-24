@@ -7,21 +7,19 @@ import jakarta.persistence.*;
 public class Saldo {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idSaldo")
 	private Long idSaldo;
 	private BigDecimal monto;
 	@ManyToOne
 	private Usuario usuario;
-	@ManyToOne
-	private Gasto gasto;
 	
 	public Saldo() {
 		super();
 	}
 	
-	public Saldo(BigDecimal monto, Usuario usuario, Gasto gasto) {
-		this.setMonto(monto);
+	public Saldo(BigDecimal bigDecimal, Usuario usuario) {
+		this.setMonto(bigDecimal);
 		this.setUsuario(usuario);
-		this.gasto=gasto;
 	}
 
 

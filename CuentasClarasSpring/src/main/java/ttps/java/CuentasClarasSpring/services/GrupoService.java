@@ -1,5 +1,7 @@
 package ttps.java.CuentasClarasSpring.services;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +10,9 @@ import org.springframework.stereotype.Service;
 
 import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
+import ttps.java.CuentasClarasSpring.model.Pago;
+import ttps.java.CuentasClarasSpring.model.Saldo;
+import ttps.java.CuentasClarasSpring.model.Usuario;
 import ttps.java.CuentasClarasSpring.repository.GrupoRepository;
 
 @Service
@@ -15,6 +20,25 @@ import ttps.java.CuentasClarasSpring.repository.GrupoRepository;
 public class GrupoService  {
 	@Autowired
 	private GrupoRepository grupoRepository;
+	@Autowired
+	private SaldoService saldoService;
+	@Autowired
+	private UsuarioService usuarioService;
+	
+	
+	public Grupo crear(Grupo grupo) {
+		List<Saldo> saldos = new ArrayList<Saldo>();
+		List<Usuario> integrantes = grupo.getIntegrantes();
+		if(integrantes != null) {
+		for(Usuario user: integrantes) {
+			Saldo s = new Saldo(BigDecimal.valueOf(0),user);
+			System.out.println(s.getMonto() + s.getUsuario().getNombre());
+			saldos.add(saldoService.crear(s));
+		}
+		}
+		grupo.setSaldos(saldos);
+		return grupoRepository.save(grupo);
+	}
 	
 	public Grupo actualizar(Grupo grupo) {
 		// validaciones

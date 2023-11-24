@@ -1,6 +1,8 @@
 package ttps.java.CuentasClarasSpring.model;
+import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,12 +13,12 @@ public class Grupo {
 	private String nombre;
 	private String imagen;
 	
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.MERGE)
 	@JoinColumn(referencedColumnName="idCategoria")
 	private Categoria categoria;
 	
 	@OneToMany
-	@JoinColumn(name="idSaldo")
+	@JoinColumn(name="idGrupo")
 	private List<Saldo> saldos;
 	
 	@ManyToMany(mappedBy="grupos")
@@ -32,15 +34,15 @@ public class Grupo {
 		super();
 	}
  
- public Grupo(String nombre, String imagen, Categoria categoria, List<Saldo> saldos,
-		List<Usuario> integrantes, List<Gasto> gastos, List<Pago> pagos) {
+ public Grupo(String nombre, String imagen, Categoria categoria,
+		List<Usuario> integrantes) {
 	this.nombre = nombre;
 	this.imagen = imagen;
 	this.categoria = categoria;
-	this.saldos = saldos;
+	this.saldos = new ArrayList<Saldo>();
 	this.integrantes = integrantes;
-	this.gastos = gastos;
-	this.pagos = pagos;
+	this.gastos = new ArrayList<Gasto>();
+	this.pagos = new ArrayList<Pago>();
 }
 
 public Long getIdGrupo() {
