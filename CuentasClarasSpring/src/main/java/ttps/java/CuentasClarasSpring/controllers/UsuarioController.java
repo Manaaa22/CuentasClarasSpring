@@ -35,6 +35,17 @@ public class UsuarioController {
 	System.out.println("Se creo el usuario " + usuario.getUsuario());
 	return new ResponseEntity<Usuario>(HttpStatus.CREATED);                  //201
 	}
+	
+	//login de usuario
+	@PostMapping("/login")
+	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
+		if (usuarioService.existeUsuarioContrasenia(usuario.getUsuario(), usuario.getContrasenia())) {
+			System.out.println("Se logueo " + usuario.getUsuario());
+			return new ResponseEntity<Usuario>(HttpStatus.ACCEPTED);     //202
+		}
+		System.out.println("Usuario o contrasenia incorrectos");
+		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);   //401
+	}
 
 	// Recupero todos los usuarios
 	@GetMapping()
@@ -43,7 +54,7 @@ public class UsuarioController {
 		if (usuarios.isEmpty()) {
 			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);    //204
 		} 
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK); 
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);   //200
 	}
 
 	// Recupero un usuario dado

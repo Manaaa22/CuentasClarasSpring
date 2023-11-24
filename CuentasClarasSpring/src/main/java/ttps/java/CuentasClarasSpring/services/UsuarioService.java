@@ -33,6 +33,10 @@ public class UsuarioService {
 		return usuarioRepository.existsByUsuario(usuario.getUsuario());
 		}
 	
+	public boolean existeUsuarioContrasenia(String usuario, String contrasenia) {
+		return usuarioRepository.existsByUsuarioAndContrasenia(usuario, contrasenia);
+	}
+	
 	public void eliminarConId(Long id) {  //
 		usuarioRepository.deleteById(id);
 	}
