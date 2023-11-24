@@ -26,14 +26,25 @@ public class UsuarioController {
 	 //Creo un usuario
 	@PostMapping
 	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-	
-	System.out.println("Creando el usuario" + usuario.getUsuario());
-	if (usuarioService.existeEntidad(usuario)) {
+	System.out.println("Creando el usuario " + usuario.getUsuario());
+	if (usuarioService.existeUsuario(usuario)) {
 		System.out.println("Ya existe un usuario con nombre " + usuario.getUsuario());
-		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT); //C�digo de respuesta 409  
+		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT);               //409  
 	}
 	usuarioService.actualizar(usuario);
-	return new ResponseEntity<Usuario>(HttpStatus.CREATED);
+	System.out.println("Se creo el usuario " + usuario.getUsuario());
+	return new ResponseEntity<Usuario>(HttpStatus.CREATED);                  //201
+	}
+	
+	//login de usuario
+	@PostMapping("/login")
+	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
+		if (usuarioService.existeUsuarioContrasenia(usuario.getUsuario(), usuario.getContrasenia())) {
+			System.out.println("Se logueo " + usuario.getUsuario());
+			return new ResponseEntity<Usuario>(HttpStatus.ACCEPTED);     //202
+		}
+		System.out.println("Usuario o contrasenia incorrectos");
+		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);   //401
 	}
 
 	// Recupero todos los usuarios
@@ -41,9 +52,9 @@ public class UsuarioController {
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
-			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);    //204
+		} 
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);   //200
 	}
 
 	// Recupero un usuario dado
