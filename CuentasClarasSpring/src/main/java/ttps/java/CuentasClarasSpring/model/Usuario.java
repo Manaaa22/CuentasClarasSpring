@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 @Table(name="Usuarios")
 public class Usuario {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idUsuario")
 	private Long idUsuario;
 	//@Column(name="usuario",unique=true)
 	private String usuario;  
@@ -38,7 +39,7 @@ public class Usuario {
 	private List<Usuario> amigos;
 	
 	@OneToMany(cascade=CascadeType.MERGE)
-	@JoinColumn(name="idSaldo")
+	@JoinColumn(name="idUsuario")
 	private List<Saldo> saldos;
 	
 	

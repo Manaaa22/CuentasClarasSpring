@@ -15,6 +15,10 @@ public class SaldoService{
 	@Autowired
 	private SaldoRepository saldoRepository;
 	
+	public Saldo crear(Saldo saldo) {
+		return saldoRepository.save(saldo);
+	}
+	
 	public Saldo actualizar(Saldo saldo) {
 		// validaciones
 		return saldoRepository.save(saldo);
