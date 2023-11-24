@@ -40,6 +40,7 @@ public class GastoController {
 		currentGasto.setMonto(gasto.getMonto());
 		currentGasto.setFecha(gasto.getFecha());
 		currentGasto.setTipoDivision(gasto.getTipoDivision());
+		currentGasto.setImagen(gasto.getImagen());
 		
 
 		gastoService.actualizar(currentGasto);
