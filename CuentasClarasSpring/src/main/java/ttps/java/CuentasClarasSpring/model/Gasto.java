@@ -3,7 +3,9 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
 
 import jakarta.persistence.*;
 
@@ -21,6 +23,7 @@ public class Gasto {
 	private Categoria categoria;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName="idGrupo")
+	@JsonIgnore
 	private Grupo grupo;
 	@ManyToOne
 	@JoinColumn(referencedColumnName="idUsuario")
@@ -29,13 +32,14 @@ public class Gasto {
 	@JoinColumn(name="idGasto")
 	private List<Saldo> saldos;
 	private String imagen;
+	private String nombre;
 	
 	public Gasto() {
 		super();
 	}
 	
 	public Gasto(BigDecimal monto, Calendar fecha, Integer tipoDivision, Categoria categoria, Grupo grupo,
-			Usuario usuario, List<Saldo> saldos, String imagen) {
+			Usuario usuario, List<Saldo> saldos, String imagen, String nombre) {
 		this.monto = monto;
 		this.fecha = fecha;
 		this.tipoDivision = tipoDivision;
@@ -44,6 +48,7 @@ public class Gasto {
 		this.usuario = usuario;
 		this.saldos = saldos;
 		this.imagen = imagen;
+		this.nombre= nombre;
 	}
 	public Long getIdGasto() {
 		return idGasto;
@@ -125,5 +130,13 @@ public class Gasto {
 		else {
 			return false;
 		}
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 }
