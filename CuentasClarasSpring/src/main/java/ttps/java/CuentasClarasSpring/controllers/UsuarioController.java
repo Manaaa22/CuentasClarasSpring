@@ -79,8 +79,7 @@ public class UsuarioController {
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
 		currentUsuario.setNombre(usuario.getNombre());
-
-		// y todos los demas setters
+		currentUsuario.setAmigos(usuario.getAmigos());		// y todos los demas setters
 
 		usuarioService.actualizar(currentUsuario);
 		return new ResponseEntity<Usuario>(currentUsuario, HttpStatus.OK);

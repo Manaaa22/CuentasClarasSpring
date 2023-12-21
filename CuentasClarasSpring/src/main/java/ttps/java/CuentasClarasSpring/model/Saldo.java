@@ -1,5 +1,8 @@
 package ttps.java.CuentasClarasSpring.model;
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -10,6 +13,7 @@ public class Saldo {
 	@Column(name="idSaldo")
 	private Long idSaldo;
 	private BigDecimal monto;
+	@JsonIgnore
 	@ManyToOne
 	private Usuario usuario;
 	

@@ -2,6 +2,8 @@ package ttps.java.CuentasClarasSpring.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -18,6 +20,7 @@ public class Usuario {
 	private String email;
 	private String foto;
 	
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(
 			name= "GruposDelUsuario",
@@ -25,12 +28,15 @@ public class Usuario {
 			inverseJoinColumns= @JoinColumn(name="idGrupo"))
 	private List<Grupo> grupos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Pago> pagos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Gasto> gastos;
 	
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(
 			name= "Amigos",
@@ -38,6 +44,7 @@ public class Usuario {
 			inverseJoinColumns= @JoinColumn(name="idAmigo"))
 	private List<Usuario> amigos;
 	
+	@JsonIgnore
 	@OneToMany(cascade=CascadeType.MERGE)
 	@JoinColumn(name="idUsuario")
 	private List<Saldo> saldos;

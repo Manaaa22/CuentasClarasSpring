@@ -2,6 +2,8 @@ package ttps.java.CuentasClarasSpring.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
@@ -17,16 +19,20 @@ public class Grupo {
 	@JoinColumn(referencedColumnName="idCategoria")
 	private Categoria categoria;
 	
+	@JsonIgnore
 	@OneToMany
 	@JoinColumn(name="idGrupo")
 	private List<Saldo> saldos;
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy="grupos")
 	private List<Usuario> integrantes;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="grupo")
 	private List<Gasto> gastos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="grupo")
 	private List<Pago> pagos;
 
