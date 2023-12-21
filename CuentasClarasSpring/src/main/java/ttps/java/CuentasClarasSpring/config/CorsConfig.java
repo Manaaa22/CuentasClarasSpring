@@ -14,8 +14,25 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:4200");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+       // config.addAllowedHeader("*");
+       // config.addAllowedMethod("*");
+        //source.registerCorsConfiguration("/**", config);
+        //return new CorsFilter(source);
+     // Encabezados permitidos
+        config.addAllowedHeader("Origin");
+        config.addAllowedHeader("Content-Type");
+        config.addAllowedHeader("Accept");
+        config.addAllowedHeader("Authorization");  // Ajusta según tus necesidades
+
+        // Métodos permitidos
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+
+        // Permitir credenciales
+        config.setAllowCredentials(true);
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
