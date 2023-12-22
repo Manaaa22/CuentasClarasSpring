@@ -58,7 +58,11 @@ public class UsuarioService {
 		Optional<Usuario> optionalUsuario = usuarioRepository.findById(id);
 	    return optionalUsuario.orElse(null);
 	}
-
+	
+	public Usuario recuperarPorUsuario(String usuario){
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+	    return optionalUsuario.orElse(null);
 		
 }
-
+	
+}

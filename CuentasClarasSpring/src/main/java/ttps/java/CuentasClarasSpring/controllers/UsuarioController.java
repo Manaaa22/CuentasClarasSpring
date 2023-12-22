@@ -42,8 +42,9 @@ public class UsuarioController {
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
 		if (usuarioService.existeUsuarioContrasenia(usuario.getUsuario(), usuario.getContrasenia())) {
+			Usuario usuarioLogueado = usuarioService.recuperarPorUsuario(usuario.getUsuario());
 			System.out.println("Se logueo " + usuario.getUsuario());
-			return new ResponseEntity<Usuario>(HttpStatus.ACCEPTED);     //202
+			return ResponseEntity.accepted().body(usuarioLogueado);				//202
 		}
 		System.out.println("Usuario o contrasenia incorrectos");
 		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);   //401
