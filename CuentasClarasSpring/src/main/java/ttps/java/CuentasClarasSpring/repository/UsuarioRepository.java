@@ -11,4 +11,6 @@ boolean existsByUsuario(String usuario);
 
 boolean existsByUsuarioAndContrasenia(String usuario, String contrasenia);
 
+boolean existsByUsuario(Usuario usuario);
+
 }

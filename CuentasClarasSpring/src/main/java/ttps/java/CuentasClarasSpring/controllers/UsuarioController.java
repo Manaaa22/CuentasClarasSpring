@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
 
@@ -106,6 +107,12 @@ public class UsuarioController {
 		System.out.println("Eliminando todos los usuarios");
 		usuarioService.eliminarTodos();
 		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/{id}/grupos")
+	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("id") long id){
+		List<Grupo> grupos = usuarioService.recuperarGrupos(id);
+		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
 }
 // @PutMapping(value = "/{id}")

@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
+import ttps.java.CuentasClarasSpring.repository.GrupoRepository;
 import ttps.java.CuentasClarasSpring.repository.UsuarioRepository;
 
 @Service
@@ -14,6 +16,7 @@ import ttps.java.CuentasClarasSpring.repository.UsuarioRepository;
 public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+	private GrupoRepository grupoRepository;
 
 	public void setNuevaContrasenia(Usuario usuario, String nuevaContrasenia) {
 		usuario.setContrasenia(nuevaContrasenia);
@@ -59,6 +62,10 @@ public class UsuarioService {
 	    return optionalUsuario.orElse(null);
 	}
 
-		
+	public List<Grupo> recuperarGrupos(Long id){
+		Optional<Usuario> usuario = usuarioRepository.findById(id);
+		Optional<List<Grupo>> grupos = Optional.of(usuario.get().getGrupos());
+		return grupos.orElse(null);
+	}
 }
 
