@@ -82,9 +82,7 @@ public class UsuarioController {
 			System.out.println("Usuario con id " + id + " not found");
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		currentUsuario.setNombre(usuario.getNombre());
-		currentUsuario.setAmigos(usuario.getAmigos());		// y todos los demas setters
-
+		currentUsuario= usuario;
 		usuarioService.actualizar(currentUsuario);
 		return new ResponseEntity<Usuario>(currentUsuario, HttpStatus.OK);
 	}
