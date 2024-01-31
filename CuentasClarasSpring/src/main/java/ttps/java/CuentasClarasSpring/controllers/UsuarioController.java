@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
@@ -26,14 +29,26 @@ public class UsuarioController {
 	 //Creo un usuario
 	@PostMapping
 	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-	
-	System.out.println("Creando el usuario" + usuario.getUsuario());
-	if (usuarioService.existeEntidad(usuario)) {
+	System.out.println("Creando el usuario " + usuario.getUsuario());
+	if (usuarioService.existeUsuario(usuario)) {
 		System.out.println("Ya existe un usuario con nombre " + usuario.getUsuario());
-		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT); //C�digo de respuesta 409  
+		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT);               //409  
 	}
 	usuarioService.actualizar(usuario);
-	return new ResponseEntity<Usuario>(HttpStatus.CREATED);
+	System.out.println("Se creo el usuario " + usuario.getUsuario());
+	return new ResponseEntity<Usuario>(HttpStatus.CREATED);                  //201
+	}
+	
+	//login de usuario
+	@PostMapping("/login")
+	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
+		if (usuarioService.existeUsuarioContrasenia(usuario.getUsuario(), usuario.getContrasenia())) {
+			Usuario usuarioLogueado = usuarioService.recuperarPorUsuario(usuario.getUsuario());
+			System.out.println("Se logueo " + usuario.getUsuario());
+			return ResponseEntity.accepted().body(usuarioLogueado);				//202
+		}
+		System.out.println("Usuario o contrasenia incorrectos");
+		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);   //401
 	}
 
 	// Recupero todos los usuarios
@@ -41,9 +56,9 @@ public class UsuarioController {
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
-			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);
+			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);    //204
+		} 
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);   //200
 	}
 
 	// Recupero un usuario dado
@@ -67,10 +82,7 @@ public class UsuarioController {
 			System.out.println("Usuario con id " + id + " not found");
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		currentUsuario.setNombre(usuario.getNombre());
-
-		// y todos los demas setters
-
+		currentUsuario= usuario;
 		usuarioService.actualizar(currentUsuario);
 		return new ResponseEntity<Usuario>(currentUsuario, HttpStatus.OK);
 	}
@@ -94,6 +106,12 @@ public class UsuarioController {
 		System.out.println("Eliminando todos los usuarios");
 		usuarioService.eliminarTodos();
 		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/{id}/grupos")
+	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("id") long id){
+		List<Grupo> grupos = usuarioService.recuperarGrupos(id);
+		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
 }
 // @PutMapping(value = "/{id}")

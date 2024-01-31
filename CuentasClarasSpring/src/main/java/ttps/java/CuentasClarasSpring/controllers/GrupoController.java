@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.services.GrupoService;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/grupo")     //deberia ir esto? me da error ("/users", produces = MediaType.APPLICATION_JSON_VALUE)
 
@@ -25,21 +27,26 @@ public class GrupoController {
 	private GrupoService grupoService;
 	
 	 //Creo un grupo
-	@PostMapping
+	@PostMapping("/crearGrupo")
 	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
-	grupoService.actualizar(grupo);
-	return new ResponseEntity<Grupo>(HttpStatus.CREATED);
+		Grupo nuevoGrupo = grupoService.crear(grupo);
+		return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
 	}
 	
+	@GetMapping
+	public ResponseEntity<List<Grupo>> recuperarTodos(){
+		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
+	}
 	
 	//Listado de todos los gastos de un grupo
 	@GetMapping("/{id}")
-	public ResponseEntity<List<Gasto>> ListarGastosDeGrupo(@PathVariable("id") long id) {
+	public ResponseEntity<Grupo> recuperarPorId(@PathVariable("id") long id) {
 		Grupo grupo = grupoService.recuperarPorId(id);
+		System.out.print(grupo.getNombre());
 		if (grupo == null) {
-			return new ResponseEntity<List<Gasto>>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<List<Gasto>>(grupo.getGastos(), HttpStatus.OK);
+		return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
 	}
 
 	// Actualizo de los datos de un grupo
@@ -54,6 +61,7 @@ public class GrupoController {
 			currentGrupo.setNombre(grupo.getNombre());
 			currentGrupo.setImagen(grupo.getImagen());
 			currentGrupo.setCategoria(grupo.getCategoria());
+			currentGrupo.setIntegrantes(null);
 			
 			//y todos los demas setters?
 		

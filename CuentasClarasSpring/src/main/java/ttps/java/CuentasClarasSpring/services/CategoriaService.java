@@ -15,6 +15,10 @@ public class CategoriaService  {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	public Categoria crear(Categoria categoria) {
+		return categoriaRepository.save(categoria);
+	}
+	
 	public Categoria actualizar(Categoria categoria) {
 		// validaciones
 		return categoriaRepository.save(categoria);
@@ -49,6 +53,9 @@ public class CategoriaService  {
 		Optional<Categoria> optionalCategoria = categoriaRepository.findById(id);
 	    return optionalCategoria.orElse(null);
 	}
-
+	
+	public Categoria recuperarPorNombre(String nombre) {
+		return categoriaRepository.findByNombre(nombre);
+	}
 
 }

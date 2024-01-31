@@ -2,21 +2,25 @@ package ttps.java.CuentasClarasSpring.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name="Usuarios")
 public class Usuario {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="idUsuario")
 	private Long idUsuario;
-	@Column(name="usuario",unique=true)
+	//@Column(name="usuario",unique=true)
 	private String usuario;  
-	private String nombre;
+	private String nombre; 
 	private String contrasenia;
-	@Column(name="email",unique=true)
+	//@Column(name="email",unique=true)
 	private String email;
 	private String foto;
 	
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(
 			name= "GruposDelUsuario",
@@ -24,12 +28,15 @@ public class Usuario {
 			inverseJoinColumns= @JoinColumn(name="idGrupo"))
 	private List<Grupo> grupos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Pago> pagos;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="usuario")
 	private List<Gasto> gastos;
 	
+	@JsonIgnore
 	@ManyToMany(cascade=CascadeType.MERGE)
 	@JoinTable(
 			name= "Amigos",
@@ -37,8 +44,9 @@ public class Usuario {
 			inverseJoinColumns= @JoinColumn(name="idAmigo"))
 	private List<Usuario> amigos;
 	
+	@JsonIgnore
 	@OneToMany(cascade=CascadeType.MERGE)
-	@JoinColumn(name="idSaldo")
+	@JoinColumn(name="idUsuario")
 	private List<Saldo> saldos;
 	
 	

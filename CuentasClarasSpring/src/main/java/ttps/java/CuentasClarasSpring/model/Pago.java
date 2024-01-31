@@ -1,6 +1,9 @@
 package ttps.java.CuentasClarasSpring.model;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +12,15 @@ public class Pago {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPago;
 	private BigDecimal monto;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(referencedColumnName="idGrupo")
 	private Grupo grupo;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(referencedColumnName="idUsuario")
 	private Usuario usuario;
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(referencedColumnName="idUsuario")
 	private Usuario usuarioDestino;
