@@ -20,7 +20,7 @@ public class CorsConfig {
      // Encabezados permitidos
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
-        // Permitir credenciales
+              // Permitir credenciales
         config.setAllowCredentials(true);
 
         source.registerCorsConfiguration("/**", config);

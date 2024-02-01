@@ -56,9 +56,7 @@ public class TokenServices {
                 token = token.substring(prefix.length()).trim();
             }
 
-            Claims claims = Jwts.parser()
-                    .setSigningKey(key)
-                    .parseClaimsJws(token).getBody();
+			Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 
             System.out.println("ID: " + claims.getId());
             System.out.println("Subject: " + claims.getSubject());

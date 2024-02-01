@@ -68,7 +68,12 @@ public class UsuarioService {
 		Optional<List<Grupo>> grupos = Optional.of(usuario.get().getGrupos());
 		return grupos.orElse(null);
 	}
-
+	
+	public List<Grupo> recuperarGruposPorUsuario(String nombreDeUsuario){
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario(nombreDeUsuario);
+		Optional<List<Grupo>> grupos = Optional.of(usuario.get().getGrupos());
+		return grupos.orElse(null);
+	}
 	
 	public Usuario recuperarPorUsuario(String usuario){
 		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);

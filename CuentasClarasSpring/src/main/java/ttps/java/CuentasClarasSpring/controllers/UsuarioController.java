@@ -52,7 +52,7 @@ public class UsuarioController {
 	}
 
 	// Recupero todos los usuarios
-	@GetMapping()
+	@GetMapping
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
@@ -108,9 +108,10 @@ public class UsuarioController {
 		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
 	}
 	
-	@GetMapping("/{id}/grupos")
-	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("id") long id){
-		List<Grupo> grupos = usuarioService.recuperarGrupos(id);
+	@GetMapping("/{username}/grupos")
+	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("username") String username){
+		System.out.println("llegue al back");
+		List<Grupo> grupos = usuarioService.recuperarGruposPorUsuario(username);
 		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
 }
