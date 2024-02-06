@@ -82,4 +82,9 @@ public class UsuarioService {
 
 }
 	
+	public Usuario recuperarPorUsername(String usuario) {   
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+	    return optionalUsuario.orElse(null);
+	}
+	
 }
