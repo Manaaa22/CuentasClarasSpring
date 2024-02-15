@@ -36,9 +36,8 @@ public class UsuarioController {
 		}
 		usuarioService.actualizar(usuario);
 		System.out.println("Se creo el usuario " + usuario.getUsuario());
-		return new ResponseEntity<Usuario>(HttpStatus.CREATED); // 201
+				return new ResponseEntity<Usuario>(HttpStatus.CREATED); // 201
 	}
-
 	// login de usuario
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
