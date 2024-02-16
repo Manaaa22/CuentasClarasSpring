@@ -114,6 +114,7 @@ public class UsuarioController {
 		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
 
+
 // Recupero un usuario dado por username
 	@GetMapping("/username/{username}")
 	public ResponseEntity<Usuario> getUsuarioUsername(@PathVariable("username") String username) {
@@ -125,6 +126,7 @@ public class UsuarioController {
 		}
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
+
 }
 // @PutMapping(value = "/{id}")
 // public Usuario update(@RequestBody Usuario usuario, @PathVariable("id") Long
