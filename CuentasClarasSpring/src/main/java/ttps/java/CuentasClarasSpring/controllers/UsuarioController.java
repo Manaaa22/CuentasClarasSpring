@@ -114,6 +114,14 @@ public class UsuarioController {
 		List<Grupo> grupos = usuarioService.recuperarGruposPorUsuario(username);
 		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
+	
+	@GetMapping("/{username}")
+	public ResponseEntity<Usuario> recuperarPorUsuario(@PathVariable("username") String username){
+		Usuario usuario = usuarioService.recuperarPorUsuario(username);
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
+	
+	
 }
 // @PutMapping(value = "/{id}")
 // public Usuario update(@RequestBody Usuario usuario, @PathVariable("id") Long

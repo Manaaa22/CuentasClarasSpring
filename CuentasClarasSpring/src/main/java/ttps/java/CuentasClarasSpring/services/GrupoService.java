@@ -75,5 +75,15 @@ public class GrupoService  {
 	    return optionalGrupo.orElse(null);
 	}
 	
+	public boolean tieneIntegrante(Usuario usuario, Long id) {
+		Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+		if(optionalGrupo.get().getIntegrantes().contains(usuario))
+			return true;
+		return false;
+	}
 	
+	public void borrarMiembro(Usuario usuario, Long id) {
+		Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
+		optionalGrupo.get().getIntegrantes().remove(usuario);
+	}
 }

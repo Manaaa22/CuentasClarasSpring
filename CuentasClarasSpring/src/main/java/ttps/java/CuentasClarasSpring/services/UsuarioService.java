@@ -3,6 +3,7 @@ package ttps.java.CuentasClarasSpring.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.usertype.UserCollectionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,6 @@ import ttps.java.CuentasClarasSpring.repository.UsuarioRepository;
 public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	private GrupoRepository grupoRepository;
 
 	public void setNuevaContrasenia(Usuario usuario, String nuevaContrasenia) {
 		usuario.setContrasenia(nuevaContrasenia);
@@ -79,7 +79,18 @@ public class UsuarioService {
 		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
 	    return optionalUsuario.orElse(null);
 		
-
-}
+	}
+	
+	public Usuario agregarUnGrupo(String usuario, Grupo grupo) {
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+		Usuario user = optionalUsuario.get();
+		user.agregarUnGrupo(grupo);
+		return user;
+	}
+	
+	public void borrarUnGrupo(String usuario, Grupo grupo) {
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+		optionalUsuario.get().borrarUnGrupo(grupo);
+	}
 	
 }
