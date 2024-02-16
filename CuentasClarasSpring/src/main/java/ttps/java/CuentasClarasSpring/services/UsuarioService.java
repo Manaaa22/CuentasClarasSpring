@@ -93,4 +93,9 @@ public class UsuarioService {
 		optionalUsuario.get().borrarUnGrupo(grupo);
 	}
 	
+	public Usuario recuperarPorUsername(String usuario) {   
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+	    return optionalUsuario.orElse(null);
+	}
+	
 }
