@@ -10,6 +10,7 @@ import ttps.java.CuentasClarasSpring.model.Usuario;
 public interface UsuarioRepository  extends JpaRepository<Usuario, Long> {  
 
 boolean existsByUsuario(String usuario);
+boolean existsByEmail (String email);
 
 boolean existsByUsuarioAndContrasenia(String usuario, String contrasenia);
 
