@@ -106,13 +106,13 @@ public class GrupoController {
 		@GetMapping("/{id}/miembros")
 		public ResponseEntity<List<Usuario>> recuperarMiembrosPorId(@PathVariable("id") long id) {
 			Grupo grupo = grupoService.recuperarPorId(id);
-			System.out.println(grupo.getNombre());
-			System.out.println(grupo.getIntegrantes().isEmpty());
-			System.out.println(grupo.getIntegrantes().getClass());
-			if (grupo == null) {
-				return new ResponseEntity<List<Usuario>>(HttpStatus.NOT_FOUND);
-			}
 			return new ResponseEntity<List<Usuario>>(grupo.getIntegrantes(), HttpStatus.OK);
+		}
+		
+		@PutMapping("/agregarGasto")
+		public ResponseEntity<Grupo> agregarGasto(@RequestBody Grupo grupo, Gasto gasto){
+			grupoService.agregarGasto(grupo, gasto);
+			return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
 		}
 		
 }
