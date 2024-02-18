@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
+import ttps.java.CuentasClarasSpring.services.GastoService;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
+import ttps.java.CuentasClarasSpring.services.GrupoService;
 
 @CrossOrigin
 @RestController
@@ -25,6 +27,8 @@ import ttps.java.CuentasClarasSpring.services.UsuarioService;
 public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private GrupoService grupoService;
 
 	// Creo un usuario
 	@PostMapping
@@ -36,8 +40,9 @@ public class UsuarioController {
 		}
 		usuarioService.actualizar(usuario);
 		System.out.println("Se creo el usuario " + usuario.getUsuario());
-				return new ResponseEntity<Usuario>(HttpStatus.CREATED); // 201
+		return new ResponseEntity<Usuario>(HttpStatus.CREATED); // 201
 	}
+
 	// login de usuario
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
@@ -114,6 +119,18 @@ public class UsuarioController {
 		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
 
+	// Creo un grupo
+	@PostMapping("/{username}/crearGrupo")
+	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
+		Usuario usuario = usuarioService.recuperarPorUsername(username);
+		usuarioService.agregarUnGrupo(username, grupo);
+
+		usuarioService.actualizar(usuario);
+		grupoService.actualizar(grupo);
+		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
+
+		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
+	}
 
 // Recupero un usuario dado por username
 	@GetMapping("/username/{username}")

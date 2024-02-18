@@ -36,6 +36,10 @@ public class UsuarioService {
 		return usuarioRepository.existsByUsuario(usuario.getUsuario());
 		}
 	
+	public boolean existeEmail (Usuario usuario) {
+		return usuarioRepository.existsByEmail(usuario.getEmail());
+	}
+	
 	public boolean existeUsuarioContrasenia(String usuario, String contrasenia) {
 		return usuarioRepository.existsByUsuarioAndContrasenia(usuario, contrasenia);
 	}
