@@ -26,9 +26,14 @@ public class GastoService  {
 		List<Usuario> miembros = grupo.getIntegrantes();
 		Integer cant = miembros.size();
 		if (gasto.getTipoDivision().equals(1)) { //dividir de forma igual
-			double montoDiv = gasto.getMonto()%cant;
+			Double montoDiv = gasto.getMonto()%cant;
+			Saldo s;
 			for(int i=0;i<cant;i++) {
-				Saldo s = new Saldo(montoDiv,miembros.get(i));
+				if(miembros.get(i).equals(gasto.getUsuario())) {
+					s = new Saldo(montoDiv,miembros.get(i)); //se asume que el usuario creador pago
+				} else {
+					s = new Saldo(-montoDiv,miembros.get(i));
+				}
 				saldoService.crear(s);
 				saldos.add(s);
 			}
