@@ -120,17 +120,17 @@ public class UsuarioController {
 	}
 
 	// Creo un grupo
-	@PostMapping("/{username}/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
-		Usuario usuario = usuarioService.recuperarPorUsername(username);
-		usuarioService.agregarUnGrupo(username, grupo);
+	//@PostMapping("/{username}/crearGrupo")
+	//public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
+		//Usuario usuario = usuarioService.recuperarPorUsername(username);
+		//usuarioService.agregarUnGrupo(username, grupo);
 
-		usuarioService.actualizar(usuario);
-		grupoService.actualizar(grupo);
-		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
+		//usuarioService.actualizar(usuario);
+	//	grupoService.actualizar(grupo);
+		//System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
 
-		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
-	}
+		//return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
+//	}
 
 // Recupero un usuario dado por username
 	@GetMapping("/username/{username}")
