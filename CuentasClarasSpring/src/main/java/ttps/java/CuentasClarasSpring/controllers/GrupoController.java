@@ -115,4 +115,13 @@ public class GrupoController {
 			return new ResponseEntity<List<Usuario>>(grupo.getIntegrantes(), HttpStatus.OK);
 		}
 		
+		@GetMapping("/{id}/gastos")
+		public ResponseEntity<List<Gasto>> recuperarGastosPorId(@PathVariable("id") long id) {
+			Grupo grupo = grupoService.recuperarPorId(id);
+			
+			return new ResponseEntity<List<Gasto>>(grupo.getGastos(), HttpStatus.OK);
+		}
+		
+		
+		
 }
