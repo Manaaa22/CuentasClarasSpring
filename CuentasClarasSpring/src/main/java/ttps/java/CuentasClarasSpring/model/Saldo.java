@@ -12,7 +12,7 @@ public class Saldo {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idSaldo")
 	private Long idSaldo;
-	private BigDecimal monto;
+	private Double monto;
 	@JsonIgnore
 	@ManyToOne
 	private Usuario usuario;
@@ -21,7 +21,7 @@ public class Saldo {
 		super();
 	}
 	
-	public Saldo(BigDecimal bigDecimal, Usuario usuario) {
+	public Saldo(Double bigDecimal, Usuario usuario) {
 		this.setMonto(bigDecimal);
 		this.setUsuario(usuario);
 	}
@@ -31,10 +31,10 @@ public class Saldo {
 		return idSaldo;
 	}
 	
-	public BigDecimal getMonto() {
+	public Double getMonto() {
 		return monto;
 	}
-	public void setMonto(BigDecimal monto) {
+	public void setMonto(Double monto) {
 		this.monto = monto;
 	}
 

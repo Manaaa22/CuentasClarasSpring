@@ -1,6 +1,6 @@
 package ttps.java.CuentasClarasSpring.services;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,7 +28,7 @@ public class GrupoService {
 		List<Usuario> integrantes = grupo.getIntegrantes();
 		if (integrantes != null) {
 			for (Usuario user : integrantes) {
-				Saldo s = new Saldo(BigDecimal.valueOf(0), user);
+				Saldo s = new Saldo(Double.valueOf(0), user);
 				System.out.println(s.getMonto() + s.getUsuario().getNombre());
 				saldos.add(saldoService.crear(s));
 			}
