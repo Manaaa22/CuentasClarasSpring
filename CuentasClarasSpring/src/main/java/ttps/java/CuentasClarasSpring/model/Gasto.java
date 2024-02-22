@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 public class Gasto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idGasto;
-	private BigDecimal monto;
+	private Double monto;
 	@JsonFormat(pattern="yyyy-MM-dd")
 	private Calendar fecha;
 	private Integer tipoDivision;
@@ -38,7 +38,7 @@ public class Gasto {
 		super();
 	}
 	
-	public Gasto(BigDecimal monto, Calendar fecha, Integer tipoDivision, Categoria categoria, Grupo grupo,
+	public Gasto(Double monto, Calendar fecha, Integer tipoDivision, Categoria categoria, Grupo grupo,
 			Usuario usuario, List<Saldo> saldos, String imagen, String nombre) {
 		this.monto = monto;
 		this.fecha = fecha;
@@ -56,10 +56,10 @@ public class Gasto {
 	public void setIdGasto(Long idGasto) {
 		this.idGasto = idGasto;
 	}
-	public BigDecimal getMonto() {
+	public Double getMonto() {
 		return monto;
 	}
-	public void setMonto(BigDecimal monto) {
+	public void setMonto(Double monto) {
 		this.monto = monto;
 	}
 	public Calendar getFecha() {
