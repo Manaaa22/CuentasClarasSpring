@@ -32,15 +32,28 @@ public class GrupoController {
 	private UsuarioService usuarioService;
 	
 	 //Creo un grupo
-	@PostMapping("/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
-		Grupo nuevoGrupo = grupoService.crear(grupo);
-		return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
-	}
+	//@PostMapping("/crearGrupo")
+	//public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
+	//	Grupo nuevoGrupo = grupoService.crear(grupo);
+		//return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
+	//}
 	
 	@GetMapping
 	public ResponseEntity<List<Grupo>> recuperarTodos(){
 		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
+	}
+	
+	// Creo un grupo
+	@PostMapping("/{username}/crearGrupo")
+	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
+		Usuario usuario = usuarioService.recuperarPorUsername(username);
+		usuarioService.agregarUnGrupo(username, grupo);
+
+		usuarioService.actualizar(usuario);
+		//grupoService.actualizar(grupo);
+		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
+
+		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
 	}
 	
 	//Listado de todos los gastos de un grupo

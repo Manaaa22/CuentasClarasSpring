@@ -102,4 +102,10 @@ public class UsuarioService {
 	    return optionalUsuario.orElse(null);
 	}
 	
+	public List<Usuario> recuperarAmigosDeUsuario(String nombreDeUsuario){
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario(nombreDeUsuario);
+		Optional<List<Usuario>> amigos = Optional.of(usuario.get().getAmigos());
+		return amigos.orElse(null);
+	}
+	
 }
