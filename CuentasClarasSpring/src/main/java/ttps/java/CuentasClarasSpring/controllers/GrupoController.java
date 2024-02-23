@@ -109,10 +109,25 @@ public class GrupoController {
 			return new ResponseEntity<List<Usuario>>(grupo.getIntegrantes(), HttpStatus.OK);
 		}
 		
-		@PutMapping("/agregarGasto")
-		public ResponseEntity<Grupo> agregarGasto(@RequestBody Grupo grupo, Gasto gasto){
-			grupoService.agregarGasto(grupo, gasto);
-			return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
+
+		@GetMapping("/{id}/gastos")
+		public ResponseEntity<List<Gasto>> recuperarGastosPorId(@PathVariable("id") long id) {
+			Grupo grupo = grupoService.recuperarPorId(id);
+			
+			return new ResponseEntity<List<Gasto>>(grupo.getGastos(), HttpStatus.OK);
 		}
 		
+		
+		
+
+		@PostMapping("/{id}/agregarGasto")
+		public ResponseEntity<Grupo> agregarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto){
+			Grupo grupo = grupoService.recuperarPorId(id);
+			System.out.println("agregando gasto");
+			Grupo grupoAct= new Grupo();
+			grupoAct=grupoService.agregarGasto(grupo, gasto);
+			return new ResponseEntity<Grupo>(grupoAct, HttpStatus.OK);
+		}
+		
+
 }
