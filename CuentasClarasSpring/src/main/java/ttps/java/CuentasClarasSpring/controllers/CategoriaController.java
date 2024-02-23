@@ -1,5 +1,7 @@
 package ttps.java.CuentasClarasSpring.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,5 +38,12 @@ public class CategoriaController {
 			return new ResponseEntity<Categoria>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Categoria>(cat, HttpStatus.OK);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Categoria>> recuperarCategorias() {
+		List<Categoria> cat = catService.recuperarTodos();
+		
+		return new ResponseEntity<List<Categoria>>(cat, HttpStatus.OK);
 	}
 }

@@ -120,10 +120,13 @@ public class GrupoController {
 		
 		
 
-		@PutMapping("/agregarGasto")
-		public ResponseEntity<Grupo> agregarGasto(@RequestBody Grupo grupo, Gasto gasto){
-			grupoService.agregarGasto(grupo, gasto);
-			return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
+		@PostMapping("/{id}/agregarGasto")
+		public ResponseEntity<Grupo> agregarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto){
+			Grupo grupo = grupoService.recuperarPorId(id);
+			System.out.println("agregando gasto");
+			Grupo grupoAct= new Grupo();
+			grupoAct=grupoService.agregarGasto(grupo, gasto);
+			return new ResponseEntity<Grupo>(grupoAct, HttpStatus.OK);
 		}
 		
 
