@@ -21,8 +21,13 @@ public class Saldo {
 		super();
 	}
 	
+
 	public Saldo(Double monto, Usuario usuario) {
 		this.setMonto(monto);
+
+	public Saldo(Double bigDecimal, Usuario usuario) {
+		this.setMonto(bigDecimal);
+
 		this.setUsuario(usuario);
 	}
 
