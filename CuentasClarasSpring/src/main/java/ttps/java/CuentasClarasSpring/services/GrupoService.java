@@ -50,6 +50,7 @@ public class GrupoService {
 
 		}
 		grupo.setSaldos(saldos);
+		}
 		return grupoRepository.save(grupo);
 	}
 
