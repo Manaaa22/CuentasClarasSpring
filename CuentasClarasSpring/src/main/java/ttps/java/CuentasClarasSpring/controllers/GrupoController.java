@@ -137,6 +137,7 @@ public class GrupoController {
 		public ResponseEntity<Grupo> agregarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto){
 			Grupo grupo = grupoService.recuperarPorId(id);
 			System.out.println("agregando gasto");
+			System.out.println(gasto);
 			Grupo grupoAct= new Grupo();
 			grupoAct=grupoService.agregarGasto(grupo, gasto);
 			return new ResponseEntity<Grupo>(grupoAct, HttpStatus.OK);

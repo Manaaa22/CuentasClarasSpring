@@ -31,6 +31,7 @@ public class GastoController {
 	public ResponseEntity<Gasto> crearGasto(@RequestBody Gasto gasto) {
 		gastoService.actualizar(gasto);
 		System.out.println("Se creo un gasto");
+		System.out.println(gasto);
 		return new ResponseEntity<Gasto>(HttpStatus.CREATED); // 201
 	}
 
@@ -47,7 +48,7 @@ public class GastoController {
 		currentGasto.setFecha(gasto.getFecha());
 		currentGasto.setTipoDivision(gasto.getTipoDivision());
 		currentGasto.setImagen(gasto.getImagen());
-		
+		currentGasto.setNombre(gasto.getNombre());
 		System.out.println("Se actualizo gasto con id " + id );
 		gastoService.actualizar(currentGasto);
 		return new ResponseEntity<Gasto>(currentGasto, HttpStatus.OK);

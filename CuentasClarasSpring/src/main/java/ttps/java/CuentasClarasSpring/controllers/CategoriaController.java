@@ -48,7 +48,7 @@ public class CategoriaController {
 		System.out.print(cat.getNombre());
 		return new ResponseEntity<Categoria> (cat, HttpStatus.OK);
 	}
-	@GetMapping
+	@GetMapping()
 	public ResponseEntity<List<Categoria>> recuperarCategorias() {
 		List<Categoria> cat = catService.recuperarTodos();
 		
