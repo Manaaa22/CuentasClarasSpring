@@ -41,15 +41,18 @@ public class CategoriaController {
 		return new ResponseEntity<Categoria>(cat, HttpStatus.OK);
 	}
 	
-	@GetMapping("/categorias")
-	public ResponseEntity<List<Categoria>> recuperarTodos(){
-		return new ResponseEntity<List<Categoria>> (catService.recuperarTodos(), HttpStatus.OK);
-	}
 	
 	@GetMapping("/categoriaId/{id}")
 	public ResponseEntity<Categoria> recuperarPorId(@PathVariable("id") long id){
 		Categoria cat = catService.recuperarPorId(id);
 		System.out.print(cat.getNombre());
 		return new ResponseEntity<Categoria> (cat, HttpStatus.OK);
+
+	@GetMapping
+	public ResponseEntity<List<Categoria>> recuperarCategorias() {
+		List<Categoria> cat = catService.recuperarTodos();
+		
+		return new ResponseEntity<List<Categoria>>(cat, HttpStatus.OK);
+
 	}
 }

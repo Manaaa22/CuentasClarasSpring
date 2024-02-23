@@ -84,6 +84,7 @@ public class GrupoService {
 	}
 
 	public Grupo recuperarPorId(Long id) {
+		System.out.println("recuperando el grupo" + id);
 		Optional<Grupo> optionalGrupo = grupoRepository.findById(id);
 		return optionalGrupo.orElse(null);
 	}
@@ -101,8 +102,17 @@ public class GrupoService {
 	}
 	
 	public Grupo agregarGasto(Grupo grupo, Gasto gasto) {
-		gastoService.crear(grupo, gasto);
-		grupo.agregarGasto(gasto);
+		System.out.println("llegue al service de grupo");
+		Gasto g = new Gasto();
+		g.setCategoria(gasto.getCategoria());
+		g.setFecha(gasto.getFecha());
+		g.setGrupo(grupo);
+		g.setMonto(gasto.getMonto());
+		g.setNombre(gasto.getNombre());
+		g.setTipoDivision(gasto.getTipoDivision());
+		g.setUsuario(gasto.getUsuario());
+		g = gastoService.crear(grupo, g);
+		grupo.agregarGasto(g);
 		return grupoRepository.save(grupo);
 	}
 	
