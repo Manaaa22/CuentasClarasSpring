@@ -1,5 +1,6 @@
 package ttps.java.CuentasClarasSpring.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
+import ttps.java.CuentasClarasSpring.model.Usuario;
 import ttps.java.CuentasClarasSpring.services.GrupoService;
+import ttps.java.CuentasClarasSpring.services.UsuarioService;
 
 @CrossOrigin
 @RestController
@@ -25,17 +28,32 @@ import ttps.java.CuentasClarasSpring.services.GrupoService;
 public class GrupoController {
 	@Autowired
 	private GrupoService grupoService;
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	 //Creo un grupo
-	@PostMapping("/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
-		Grupo nuevoGrupo = grupoService.crear(grupo);
-		return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
-	}
+	//@PostMapping("/crearGrupo")
+	//public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo) {	
+	//	Grupo nuevoGrupo = grupoService.crear(grupo);
+		//return new ResponseEntity<Grupo>(nuevoGrupo, HttpStatus.CREATED);
+	//}
 	
 	@GetMapping
 	public ResponseEntity<List<Grupo>> recuperarTodos(){
 		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
+	}
+	
+	// Creo un grupo
+	@PostMapping("/{username}/crearGrupo")
+	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
+		Usuario usuario = usuarioService.recuperarPorUsername(username);
+		usuarioService.agregarUnGrupo(username, grupo);
+
+		usuarioService.actualizar(usuario);
+		//grupoService.actualizar(grupo);
+		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
+
+		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
 	}
 	
 	//Listado de todos los gastos de un grupo
@@ -68,4 +86,61 @@ public class GrupoController {
 			grupoService.actualizar(currentGrupo);
 			return new ResponseEntity<Grupo>(currentGrupo, HttpStatus.OK);
 		}
+		
+		@PutMapping("/nuevoMiembro/{miembro}")
+		public ResponseEntity<Grupo> agregarMiembro(@PathVariable("miembro") String miembro, @RequestBody Long id){
+			Usuario usuario = this.usuarioService.recuperarPorUsuario(miembro);
+			Grupo grupo = this.grupoService.recuperarPorId(id);
+			
+			if(grupoService.tieneIntegrante(usuario, id)) {
+				return new ResponseEntity<Grupo>(grupo, HttpStatus.FOUND);
+			}
+			grupo.agregarIntegrante(usuario);
+			Grupo gnuevo = grupoService.actualizar(grupo);
+			Usuario unuevo = usuarioService.agregarUnGrupo(miembro, gnuevo);
+			usuarioService.actualizar(unuevo);
+			return new ResponseEntity<Grupo>(gnuevo, HttpStatus.OK);
+		}
+		
+		@PutMapping("/borrarMiembro/{miembro}")
+		public ResponseEntity<Grupo> borrarMiembro(@PathVariable("miembro") String miembro, @RequestBody Long id){
+			Usuario usuario = this.usuarioService.recuperarPorUsuario(miembro);
+			Grupo grupo = this.grupoService.recuperarPorId(id);
+			if(grupoService.tieneIntegrante(usuario, grupo.getIdGrupo())) {
+				grupoService.borrarMiembro(usuario, grupo.getIdGrupo());
+				grupoService.actualizar(grupo);
+				usuarioService.borrarUnGrupo(miembro, grupo);
+				usuarioService.actualizar(usuario);
+				return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
+			}
+			return new ResponseEntity<Grupo>(grupo, HttpStatus.NOT_FOUND);
+		}
+		
+		@GetMapping("/{id}/miembros")
+		public ResponseEntity<List<Usuario>> recuperarMiembrosPorId(@PathVariable("id") long id) {
+			Grupo grupo = grupoService.recuperarPorId(id);
+			return new ResponseEntity<List<Usuario>>(grupo.getIntegrantes(), HttpStatus.OK);
+		}
+		
+
+		@GetMapping("/{id}/gastos")
+		public ResponseEntity<List<Gasto>> recuperarGastosPorId(@PathVariable("id") long id) {
+			Grupo grupo = grupoService.recuperarPorId(id);
+			
+			return new ResponseEntity<List<Gasto>>(grupo.getGastos(), HttpStatus.OK);
+		}
+		
+		
+		
+
+		@PostMapping("/{id}/agregarGasto")
+		public ResponseEntity<Grupo> agregarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto){
+			Grupo grupo = grupoService.recuperarPorId(id);
+			System.out.println("agregando gasto");
+			Grupo grupoAct= new Grupo();
+			grupoAct=grupoService.agregarGasto(grupo, gasto);
+			return new ResponseEntity<Grupo>(grupoAct, HttpStatus.OK);
+		}
+		
+
 }

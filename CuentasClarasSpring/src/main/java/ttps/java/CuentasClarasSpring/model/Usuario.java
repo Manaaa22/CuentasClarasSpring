@@ -1,5 +1,6 @@
 package ttps.java.CuentasClarasSpring.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -132,5 +133,16 @@ public class Usuario {
 	}
 	public void setSaldos(List<Saldo> saldos) {
 		this.saldos = saldos;
+	}
+	public void agregarUnGrupo(Grupo grupo) {
+		if(this.getGrupos()==null) {
+			this.setGrupos(new ArrayList<Grupo>());
+		}
+		this.getGrupos().add(grupo);
+	}
+	public void borrarUnGrupo(Grupo grupo) {
+		if(this.getGrupos().contains(grupo)) {
+			this.getGrupos().remove(grupo);
+		}
 	}
 }

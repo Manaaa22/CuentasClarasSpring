@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
+import ttps.java.CuentasClarasSpring.services.GastoService;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
+import ttps.java.CuentasClarasSpring.services.GrupoService;
 
 @CrossOrigin
 @RestController
@@ -25,44 +27,46 @@ import ttps.java.CuentasClarasSpring.services.UsuarioService;
 public class UsuarioController {
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private GrupoService grupoService;
 
-	 //Creo un usuario
+	// Creo un usuario
 	@PostMapping
 	public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-	System.out.println("Creando el usuario " + usuario.getUsuario());
-	if (usuarioService.existeUsuario(usuario)) {
-		System.out.println("Ya existe un usuario con nombre " + usuario.getUsuario());
-		return new ResponseEntity<Usuario>(HttpStatus.CONFLICT);               //409  
+		System.out.println("Creando el usuario " + usuario.getUsuario());
+		if (usuarioService.existeUsuario(usuario)) {
+			System.out.println("Ya existe un usuario con nombre " + usuario.getUsuario());
+			return new ResponseEntity<Usuario>(HttpStatus.CONFLICT); // 409
+		}
+		usuarioService.actualizar(usuario);
+		System.out.println("Se creo el usuario " + usuario.getUsuario());
+		return new ResponseEntity<Usuario>(HttpStatus.CREATED); // 201
 	}
-	usuarioService.actualizar(usuario);
-	System.out.println("Se creo el usuario " + usuario.getUsuario());
-	return new ResponseEntity<Usuario>(HttpStatus.CREATED);                  //201
-	}
-	
-	//login de usuario
+
+	// login de usuario
 	@PostMapping("/login")
 	public ResponseEntity<Usuario> loginUsuario(@RequestBody Usuario usuario) {
 		if (usuarioService.existeUsuarioContrasenia(usuario.getUsuario(), usuario.getContrasenia())) {
 			Usuario usuarioLogueado = usuarioService.recuperarPorUsuario(usuario.getUsuario());
 			System.out.println("Se logueo " + usuario.getUsuario());
-			return ResponseEntity.accepted().body(usuarioLogueado);				//202
+			return ResponseEntity.accepted().body(usuarioLogueado); // 202
 		}
 		System.out.println("Usuario o contrasenia incorrectos");
-		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED);   //401
+		return new ResponseEntity<Usuario>(HttpStatus.UNAUTHORIZED); // 401
 	}
 
 	// Recupero todos los usuarios
-	@GetMapping()
+	@GetMapping
 	public ResponseEntity<List<Usuario>> listarTodosLosUsuarios() {
 		List<Usuario> usuarios = usuarioService.recuperarTodos();
 		if (usuarios.isEmpty()) {
-			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT);    //204
-		} 
-		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);   //200
+			return new ResponseEntity<List<Usuario>>(HttpStatus.NO_CONTENT); // 204
+		}
+		return new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK); // 200
 	}
 
 	// Recupero un usuario dado
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<Usuario> getUsuario(@PathVariable("id") long id) {
 		System.out.println("Obteniendo usuario con id " + id);
 		Usuario usuario = usuarioService.recuperarPorId(id);
@@ -82,7 +86,7 @@ public class UsuarioController {
 			System.out.println("Usuario con id " + id + " not found");
 			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
 		}
-		currentUsuario= usuario;
+		currentUsuario = usuario;
 		usuarioService.actualizar(currentUsuario);
 		return new ResponseEntity<Usuario>(currentUsuario, HttpStatus.OK);
 	}
@@ -107,12 +111,35 @@ public class UsuarioController {
 		usuarioService.eliminarTodos();
 		return new ResponseEntity<Usuario>(HttpStatus.NO_CONTENT);
 	}
-	
-	@GetMapping("/{id}/grupos")
-	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("id") long id){
-		List<Grupo> grupos = usuarioService.recuperarGrupos(id);
+
+	@GetMapping("/{username}/grupos")
+	public ResponseEntity<List<Grupo>> gruposDeUnUsuario(@PathVariable("username") String username) {
+		System.out.println("llegue al back");
+		List<Grupo> grupos = usuarioService.recuperarGruposPorUsuario(username);
 		return new ResponseEntity<List<Grupo>>(grupos, HttpStatus.OK);
 	}
+
+	
+	@GetMapping("/{username}/amigos")
+	public ResponseEntity<List<Usuario>> amigosDeUnUsuario(@PathVariable("username") String username) {
+		System.out.println("llegue aa get amigos");
+		List<Usuario> amigos = usuarioService.recuperarAmigosDeUsuario(username);
+		return new ResponseEntity<List<Usuario>>(amigos, HttpStatus.OK);
+	}
+	
+
+// Recupero un usuario dado por username
+	@GetMapping("/username/{username}")
+	public ResponseEntity<Usuario> getUsuarioUsername(@PathVariable("username") String username) {
+		System.out.println("Obteniendo usuario" + username);
+		Usuario usuario = usuarioService.recuperarPorUsername(username);
+		if (usuario == null) {
+			System.out.println("Usuario" + username + " no encontrado");
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
+
 }
 // @PutMapping(value = "/{id}")
 // public Usuario update(@RequestBody Usuario usuario, @PathVariable("id") Long

@@ -46,7 +46,7 @@ public class Grupo {
 	this.imagen = imagen;
 	this.categoria = categoria;
 	this.saldos = new ArrayList<Saldo>();
-	this.integrantes = integrantes;
+	this.integrantes= new ArrayList<Usuario>();
 	this.gastos = new ArrayList<Gasto>();
 	this.pagos = new ArrayList<Pago>();
 }
@@ -82,7 +82,16 @@ public void setSaldos(List<Saldo> saldos) {
 	this.saldos = saldos;
 }
 public List<Usuario> getIntegrantes() {
-	return integrantes;
+	return this.integrantes;
+}
+
+public void agregarIntegrante(Usuario usuario) {
+	this.getIntegrantes().add(usuario);
+}
+public void eliminarIntegrante(Usuario usuario) {
+	if(this.getIntegrantes().contains(usuario)) {
+		this.getIntegrantes().remove(usuario);
+	}
 }
 public void setIntegrantes(List<Usuario> integrantes) {
 	this.integrantes = integrantes;
@@ -99,4 +108,8 @@ public List<Pago> getPagos() {
 public void setPagos(List<Pago> pagos) {
 	this.pagos = pagos;
 }
+public void agregarGasto(Gasto gasto) {
+	this.getGastos().add(gasto);
+}
+
 }

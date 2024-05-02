@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 public class Pago {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idPago;
-	private BigDecimal monto;
+	private Double monto;
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(referencedColumnName="idGrupo")
@@ -29,7 +29,7 @@ public class Pago {
 		super();
 	}
 	
-	public Pago (BigDecimal monto, Grupo grupo, Usuario usuario, Usuario usuarioDestino) {
+	public Pago (Double monto, Grupo grupo, Usuario usuario, Usuario usuarioDestino) {
 		this.monto = monto;
 		this.grupo = grupo;
 		this.usuario = usuario;
@@ -43,10 +43,10 @@ public class Pago {
 	public void setIdPago(Long idPago) {
 		this.idPago = idPago;
 	}
-	public BigDecimal getMonto() {
+	public Double getMonto() {
 		return monto;
 	}
-	public void setMonto(BigDecimal monto) {
+	public void setMonto(Double monto) {
 		this.monto = monto;
 	}
 	public Grupo getGrupo() {

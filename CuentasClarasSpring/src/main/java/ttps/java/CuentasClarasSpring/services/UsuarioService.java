@@ -3,6 +3,7 @@ package ttps.java.CuentasClarasSpring.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.usertype.UserCollectionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,6 @@ import ttps.java.CuentasClarasSpring.repository.UsuarioRepository;
 public class UsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	private GrupoRepository grupoRepository;
 
 	public void setNuevaContrasenia(Usuario usuario, String nuevaContrasenia) {
 		usuario.setContrasenia(nuevaContrasenia);
@@ -35,6 +35,10 @@ public class UsuarioService {
 	public boolean existeUsuario(Usuario usuario) {  //
 		return usuarioRepository.existsByUsuario(usuario.getUsuario());
 		}
+	
+	public boolean existeEmail (Usuario usuario) {
+		return usuarioRepository.existsByEmail(usuario.getEmail());
+	}
 	
 	public boolean existeUsuarioContrasenia(String usuario, String contrasenia) {
 		return usuarioRepository.existsByUsuarioAndContrasenia(usuario, contrasenia);
@@ -68,13 +72,40 @@ public class UsuarioService {
 		Optional<List<Grupo>> grupos = Optional.of(usuario.get().getGrupos());
 		return grupos.orElse(null);
 	}
-
+	
+	public List<Grupo> recuperarGruposPorUsuario(String nombreDeUsuario){
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario(nombreDeUsuario);
+		Optional<List<Grupo>> grupos = Optional.of(usuario.get().getGrupos());
+		return grupos.orElse(null);
+	}
 	
 	public Usuario recuperarPorUsuario(String usuario){
 		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
 	    return optionalUsuario.orElse(null);
 		
-
-}
+	}
+	
+	public Usuario agregarUnGrupo(String usuario, Grupo grupo) {
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+		Usuario user = optionalUsuario.get();
+		user.agregarUnGrupo(grupo);
+		return user;
+	}
+	
+	public void borrarUnGrupo(String usuario, Grupo grupo) {
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+		optionalUsuario.get().borrarUnGrupo(grupo);
+	}
+	
+	public Usuario recuperarPorUsername(String usuario) {   
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+	    return optionalUsuario.orElse(null);
+	}
+	
+	public List<Usuario> recuperarAmigosDeUsuario(String nombreDeUsuario){
+		Optional<Usuario> usuario = usuarioRepository.findByUsuario(nombreDeUsuario);
+		Optional<List<Usuario>> amigos = Optional.of(usuario.get().getAmigos());
+		return amigos.orElse(null);
+	}
 	
 }
