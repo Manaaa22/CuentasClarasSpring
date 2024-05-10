@@ -46,7 +46,7 @@ public class Grupo {
 	this.imagen = imagen;
 	this.categoria = categoria;
 	this.saldos = new ArrayList<Saldo>();
-	this.integrantes= new ArrayList<Usuario>();
+	this.integrantes= integrantes;
 	this.gastos = new ArrayList<Gasto>();
 	this.pagos = new ArrayList<Pago>();
 }
