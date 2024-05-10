@@ -76,13 +76,7 @@ public class GrupoController {
 				System.out.println("Grupo con id " + id + " not found");
 				return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
 			}
-			currentGrupo.setNombre(grupo.getNombre());
-			currentGrupo.setImagen(grupo.getImagen());
-			currentGrupo.setCategoria(grupo.getCategoria());
-			currentGrupo.setIntegrantes(null);
-			
-			//y todos los demas setters?
-		
+
 			grupoService.actualizar(currentGrupo);
 			return new ResponseEntity<Grupo>(currentGrupo, HttpStatus.OK);
 		}
