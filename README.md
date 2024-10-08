@@ -42,12 +42,12 @@ mvn spring-boot:run
 or right click the CuentasClarasSpringApplication.java file at src/main/java/ttps/java and select Run As > Java Application
 
 4- Access the API:
-The API will be running on http://localhost:8080. You can interact with the endpoints using tools like Postman or Swagger at http://localhost:8080/jwt/swagger-ui/index.html
+The API will be running on http://localhost:8080/jwt. You can interact with the endpoints using tools like Postman or Swagger at http://localhost:8080/jwt/swagger-ui/index.html
 
 ## Technologies Used
 
 * Spring Boot: For the backend framework.
-* Spring Security: For user authentication and authorization.
+* JWT: For user authentication and authorization.
 * MySQL: For database management.
 * Hibernate: For ORM (Object Relational Mapping).
 * Maven: For project management and build.
