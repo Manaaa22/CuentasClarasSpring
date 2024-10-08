@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import DTO.GrupoDTO;
 import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
@@ -30,6 +31,7 @@ public class GrupoController {
 	private GrupoService grupoService;
 	@Autowired
 	private UsuarioService usuarioService;
+
 	
 	 //Creo un grupo
 	//@PostMapping("/crearGrupo")
@@ -56,33 +58,29 @@ public class GrupoController {
 		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
 	}
 	
-	//Listado de todos los gastos de un grupo
+	
 	@GetMapping("/{id}")
-	public ResponseEntity<Grupo> recuperarPorId(@PathVariable("id") long id) {
+	public ResponseEntity<Grupo> recuperarPorId(@PathVariable("id") long id) { //WTF??
 		Grupo grupo = grupoService.recuperarPorId(id);
 		System.out.print(grupo.getNombre());
 		if (grupo == null) {
-			return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Grupo>(grupo, HttpStatus.OK);
 	}
 
 	// Actualizo de los datos de un grupo
 		@PutMapping("/{id}")
-		public ResponseEntity<Grupo> actualizarGrupo(@PathVariable("id") long id, @RequestBody Grupo grupo) {
+		public ResponseEntity<Grupo> actualizarGrupo(@PathVariable("id") long id, @RequestBody GrupoDTO grupoDTO) {
 			System.out.println("Actualizando el grupo " + id);
 			Grupo currentGrupo = grupoService.recuperarPorId(id);
 			if (currentGrupo == null) {
-				System.out.println("Grupo con id " + id + " not found");
+				System.out.println("Grupo con id " + id + " no encontrado");
 				return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
 			}
-			currentGrupo.setNombre(grupo.getNombre());
-			currentGrupo.setImagen(grupo.getImagen());
-			currentGrupo.setCategoria(grupo.getCategoria());
-			currentGrupo.setIntegrantes(null);
-			
-			//y todos los demas setters?
-		
+			currentGrupo.setNombre(grupoDTO.getNombre());
+			currentGrupo.setImagen(grupoDTO.getImagen());
+			currentGrupo.setCategoria(grupoDTO.getCategoria());
 			grupoService.actualizar(currentGrupo);
 			return new ResponseEntity<Grupo>(currentGrupo, HttpStatus.OK);
 		}
@@ -129,9 +127,7 @@ public class GrupoController {
 			
 			return new ResponseEntity<List<Gasto>>(grupo.getGastos(), HttpStatus.OK);
 		}
-		
-		
-		
+			
 
 		@PostMapping("/{id}/agregarGasto")
 		public ResponseEntity<Grupo> agregarGasto(@PathVariable("id") long id, @RequestBody Gasto gasto){
