@@ -1,7 +1,7 @@
 # CuentasClaras Spring Backend
 >(Proyecto presentado y aprobado por la catedra de Taller de Tecnologias de Produccion de Software Opcion Java)
 
-Cuentas Claras is a financial management application developed using Spring Boot. It helps users manage personal or shared expenses by allowing them to track, split, and settle group costs efficiently. This project leverages a RESTful backend API, providing endpoints for user registration, group management, and expense tracking.
+CuentasClaras is a financial management application, this backend was developed using Spring Boot. It helps users manage personal or shared expenses by allowing them to track, split, and settle group costs efficiently. This project leverages a RESTful backend API, providing endpoints for user registration, group management, and expense tracking.
 ## Features
 
  * User Authentication: Secure user registration and login system.
