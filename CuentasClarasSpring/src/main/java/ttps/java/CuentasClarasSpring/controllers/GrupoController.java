@@ -1,7 +1,9 @@
 package ttps.java.CuentasClarasSpring.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,17 +52,22 @@ public class GrupoController {
 	}
 	
 	@PostMapping("/{username}/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody GrupoDTO grupoDTO, @PathVariable("username") String username) {
-	    Usuario usuario = usuarioService.recuperarPorUsername(username);
-	    if (usuario == null) {
-	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // User not found
+	public ResponseEntity<Object> crearGrupo(@RequestBody GrupoDTO grupoDTO, @PathVariable("username") String username) {
+	    Map<String, String> errorResponse = new HashMap<>();
+		
+	    if (username == null) {
+	    	errorResponse.put("message", "El usuario no puede ser null");
+	        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST); // User not found
 	    }
+	    Usuario usuario = usuarioService.recuperarPorUsername(username);
 	    System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");	
 		System.out.print(grupoDTO.getCategoria());	
+		if (grupoDTO.getCategoria() == null) {
+			errorResponse.put("message", "la categoría no puede ser null");
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
 	    Categoria categoria = categoriaService.recuperarPorId(grupoDTO.getCategoria());
-	    if (categoria == null) {
-	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Invalid category
-	    }
+	    
 
 	    Grupo grupoNuevo = new Grupo();
 	    grupoNuevo.setCategoria(categoria);
