@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import DTO.GrupoDTO;
+import ttps.java.CuentasClarasSpring.model.Categoria;
 import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
+import ttps.java.CuentasClarasSpring.services.CategoriaService;
 import ttps.java.CuentasClarasSpring.services.GrupoService;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
 
@@ -31,6 +33,8 @@ public class GrupoController {
 	private GrupoService grupoService;
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private CategoriaService categoriaService;
 
 	
 	 //Creo un grupo
@@ -45,17 +49,29 @@ public class GrupoController {
 		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
 	}
 	
-	// Creo un grupo
 	@PostMapping("/{username}/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
-		Usuario usuario = usuarioService.recuperarPorUsername(username);
-		usuarioService.agregarUnGrupo(username, grupo);
+	public ResponseEntity<Grupo> crearGrupo(@RequestBody GrupoDTO grupoDTO, @PathVariable("username") String username) {
+	    Usuario usuario = usuarioService.recuperarPorUsername(username);
+	    if (usuario == null) {
+	        return new ResponseEntity<>(HttpStatus.NOT_FOUND); // User not found
+	    }
+	    System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");	
+		System.out.print(grupoDTO.getCategoria());	
+	    Categoria categoria = categoriaService.recuperarPorId(grupoDTO.getCategoria());
+	    if (categoria == null) {
+	        return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Invalid category
+	    }
 
-		usuarioService.actualizar(usuario);
-		//grupoService.actualizar(grupo);
-		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
+	    Grupo grupoNuevo = new Grupo();
+	    grupoNuevo.setCategoria(categoria);
+//	    grupoNuevo.setIntegrantes(grupoDTO.getIntegrantes());
+	    grupoNuevo.setNombre(grupoDTO.getNombre());
+//
+	    grupoNuevo = grupoService.crear(grupoNuevo);
+	    usuarioService.agregarUnGrupo(username, grupoNuevo);
+	    usuarioService.actualizar(usuario);
 
-		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
+	    return new ResponseEntity<>(grupoNuevo, HttpStatus.CREATED);
 	}
 	
 	
@@ -79,8 +95,8 @@ public class GrupoController {
 				return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
 			}
 			currentGrupo.setNombre(grupoDTO.getNombre());
-			currentGrupo.setImagen(grupoDTO.getImagen());
-			currentGrupo.setCategoria(grupoDTO.getCategoria());
+			
+			currentGrupo.setCategoria(categoriaService.recuperarPorId(grupoDTO.getCategoria()));
 			grupoService.actualizar(currentGrupo);
 			return new ResponseEntity<Grupo>(currentGrupo, HttpStatus.OK);
 		}
