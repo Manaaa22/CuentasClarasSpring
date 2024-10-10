@@ -38,7 +38,7 @@ public class Usuario {
 	private List<Gasto> gastos;
 	
 	@JsonIgnore
-	@ManyToMany(cascade=CascadeType.MERGE)
+	@ManyToMany(cascade=CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(
 			name= "Amigos",
 			joinColumns = @JoinColumn(name="idUsuario"),
@@ -55,18 +55,22 @@ public class Usuario {
 		super();
 	}
 	
-	public Usuario(String usuario, String nombre, String contrasenia, String email, String foto, //arreglar dios santo
-			List<Grupo> grupos, List<Pago> pagos, List<Gasto> gastos, List<Usuario> amigos, List<Saldo> saldos) {
+	public Usuario(String usuario, String nombre, String contrasenia, String email, String foto) {
 		super();
 		setUsuario(usuario);
 		setNombre(nombre);
 		setContrasenia(contrasenia);
 		setEmail(email);
 		setFoto(foto);
+		List<Grupo> grupos = new ArrayList<Grupo>();
 		setGrupos(grupos);
+		List<Pago> pagos = new ArrayList<Pago>();
 		setPagos(pagos);
+		List<Gasto> gastos = new ArrayList<Gasto>();
 		setGastos(gastos);
+		List<Usuario> amigos = new ArrayList<Usuario>();
 		setAmigos(amigos);
+		List<Saldo> saldos = new ArrayList<Saldo>();
 		setSaldos(saldos);
 	}
 

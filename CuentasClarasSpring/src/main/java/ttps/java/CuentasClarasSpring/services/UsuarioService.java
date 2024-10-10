@@ -118,6 +118,9 @@ public class UsuarioService {
 		}
 		amigos.add(optionalAmigo.get());
 		optionalUsuario.get().setAmigos(amigos);
+		List<Usuario> amigos2 = optionalAmigo.get().getAmigos();
+		amigos2.add(optionalUsuario.get());
+		optionalAmigo.get().setAmigos(amigos2);
 		return usuarioRepository.save(optionalUsuario.get());
 		
 	}
