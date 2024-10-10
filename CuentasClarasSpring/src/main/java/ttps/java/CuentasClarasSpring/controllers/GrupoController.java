@@ -57,25 +57,39 @@ public class GrupoController {
 		
 	    if (username == null) {
 	    	errorResponse.put("message", "El usuario no puede ser null");
-	        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST); // User not found
+	        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
 	    }
 	    Usuario usuario = usuarioService.recuperarPorUsername(username);
-	    System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");	
-		System.out.print(grupoDTO.getCategoria());	
+	    
+		
 		if (grupoDTO.getCategoria() == null) {
 			errorResponse.put("message", "la categoría no puede ser null");
 			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 		}
 	    Categoria categoria = categoriaService.recuperarPorId(grupoDTO.getCategoria());
 	    
-
+	    int[] idsIntegrantes = grupoDTO.getIntegrantes();
+	    System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	    System.out.print(idsIntegrantes);
+	    if(idsIntegrantes == null || idsIntegrantes.length==0) {
+	    	errorResponse.put("message", "los integrantes no pueden ser null ni estar vacia");
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	    }
+	    List<Usuario> integrantes = new ArrayList<Usuario>();
+	    for (int i=0;i<idsIntegrantes.length;i++) {
+	    	Usuario u = usuarioService.recuperarPorId((long) idsIntegrantes[i]);
+	    	integrantes.add(u);
+	    }
+	    integrantes.add(usuario);
 	    Grupo grupoNuevo = new Grupo();
 	    grupoNuevo.setCategoria(categoria);
-//	    grupoNuevo.setIntegrantes(grupoDTO.getIntegrantes());
+	    grupoNuevo.setIntegrantes(integrantes);
 	    grupoNuevo.setNombre(grupoDTO.getNombre());
-//
+	    
 	    grupoNuevo = grupoService.crear(grupoNuevo);
-	    usuarioService.agregarUnGrupo(username, grupoNuevo);
+	    for (Usuario i : integrantes) {
+	    	usuarioService.agregarUnGrupo(i.getUsuario(), grupoNuevo);
+	    }
 	    usuarioService.actualizar(usuario);
 
 	    return new ResponseEntity<>(grupoNuevo, HttpStatus.CREATED);

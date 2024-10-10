@@ -8,14 +8,14 @@ import ttps.java.CuentasClarasSpring.model.Usuario;
 public class GrupoDTO {
 	private String nombre;
 	
-//	private List<Usuario> integrantes;
+	private int[] integrantes;
 	private Long categoria;
 	
-	public GrupoDTO(String nombre, Long categoria, List<Usuario> integrantes) {
+	public GrupoDTO(String nombre, Long categoria, int[] integrantes) {
 		this.nombre = nombre;
 		
 		this.categoria = categoria;
-//		this.integrantes=integrantes;
+		this.integrantes=integrantes;
 	}
 	
 	public GrupoDTO() {
@@ -31,8 +31,8 @@ public class GrupoDTO {
 		return categoria;
 	}
 
-//	public List<Usuario> getIntegrantes() {
-//		return integrantes;
-//	}
+	public int[] getIntegrantes() {
+		return integrantes;
+	}
 
 }
