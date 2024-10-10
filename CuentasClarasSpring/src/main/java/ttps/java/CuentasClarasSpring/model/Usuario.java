@@ -55,7 +55,7 @@ public class Usuario {
 		super();
 	}
 	
-	public Usuario(String usuario, String nombre, String contrasenia, String email, String foto,
+	public Usuario(String usuario, String nombre, String contrasenia, String email, String foto, //arreglar dios santo
 			List<Grupo> grupos, List<Pago> pagos, List<Gasto> gastos, List<Usuario> amigos, List<Saldo> saldos) {
 		super();
 		setUsuario(usuario);
