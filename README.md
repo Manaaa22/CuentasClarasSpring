@@ -17,6 +17,7 @@ CuentasClaras is a financial management application, this backend was developed 
 * Java 17
 * Maven 3.x.x
 * MySQL (or another SQL-based database)
+* Swagger (optional)
 
 ## Getting Started
 
@@ -41,7 +42,15 @@ mvn spring-boot:run
 ```
 or right click the CuentasClarasSpringApplication.java file at src/main/java/ttps/java and select Run As > Java Application
 
-4- Access the API:
+4- Run the Seeder Service:
+
+There's a variable in src/main/resources/application.properties that switches the Seeder Service on and off
+```
+app.seedData=true
+```
+It'll seed the DB when true, and won't when false
+
+5- Access the API:
 The API will be running on http://localhost:8080/jwt. You can interact with the endpoints using tools like Postman or Swagger at http://localhost:8080/jwt/swagger-ui/index.html
 
 ## Technologies Used
