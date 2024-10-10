@@ -139,6 +139,17 @@ public class UsuarioController {
 		}
 		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
 	}
+	
+	@PutMapping("/nuevoAmigo/{username}/{id}")
+	public ResponseEntity<Usuario> agregarAmigo(@PathVariable("username") String username, @PathVariable("id") long id){
+		Usuario usuario = usuarioService.recuperarPorUsername(username);
+		if (usuario == null) {
+			System.out.println("Usuario" + username + " no encontrado");
+			return new ResponseEntity<Usuario>(HttpStatus.NOT_FOUND);
+		}
+		usuarioService.agregarAmigo(username, id);
+		return new ResponseEntity<Usuario>(usuario, HttpStatus.OK);
+	}
 
 }
 // @PutMapping(value = "/{id}")

@@ -1,7 +1,9 @@
 package ttps.java.CuentasClarasSpring.controllers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import DTO.GrupoDTO;
+import ttps.java.CuentasClarasSpring.model.Categoria;
 import ttps.java.CuentasClarasSpring.model.Gasto;
 import ttps.java.CuentasClarasSpring.model.Grupo;
 import ttps.java.CuentasClarasSpring.model.Usuario;
+import ttps.java.CuentasClarasSpring.services.CategoriaService;
 import ttps.java.CuentasClarasSpring.services.GrupoService;
 import ttps.java.CuentasClarasSpring.services.UsuarioService;
 
@@ -31,6 +35,8 @@ public class GrupoController {
 	private GrupoService grupoService;
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private CategoriaService categoriaService;
 
 	
 	 //Creo un grupo
@@ -45,17 +51,48 @@ public class GrupoController {
 		return new ResponseEntity<List<Grupo>> (grupoService.recuperarTodos(), HttpStatus.OK);
 	}
 	
-	// Creo un grupo
 	@PostMapping("/{username}/crearGrupo")
-	public ResponseEntity<Grupo> crearGrupo(@RequestBody Grupo grupo, @PathVariable("username") String username) {
-		Usuario usuario = usuarioService.recuperarPorUsername(username);
-		usuarioService.agregarUnGrupo(username, grupo);
+	public ResponseEntity<Object> crearGrupo(@RequestBody GrupoDTO grupoDTO, @PathVariable("username") String username) {
+	    Map<String, String> errorResponse = new HashMap<>();
+		
+	    if (username == null) {
+	    	errorResponse.put("message", "El usuario no puede ser null");
+	        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+	    }
+	    Usuario usuario = usuarioService.recuperarPorUsername(username);
+	    
+		
+		if (grupoDTO.getCategoria() == null) {
+			errorResponse.put("message", "la categoría no puede ser null");
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+		}
+	    Categoria categoria = categoriaService.recuperarPorId(grupoDTO.getCategoria());
+	    
+	    int[] idsIntegrantes = grupoDTO.getIntegrantes();
+	    System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+	    System.out.print(idsIntegrantes);
+	    if(idsIntegrantes == null || idsIntegrantes.length==0) {
+	    	errorResponse.put("message", "los integrantes no pueden ser null ni estar vacia");
+			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+	    }
+	    List<Usuario> integrantes = new ArrayList<Usuario>();
+	    for (int i=0;i<idsIntegrantes.length;i++) {
+	    	Usuario u = usuarioService.recuperarPorId((long) idsIntegrantes[i]);
+	    	integrantes.add(u);
+	    }
+	    integrantes.add(usuario);
+	    Grupo grupoNuevo = new Grupo();
+	    grupoNuevo.setCategoria(categoria);
+	    grupoNuevo.setIntegrantes(integrantes);
+	    grupoNuevo.setNombre(grupoDTO.getNombre());
+	    
+	    grupoNuevo = grupoService.crear(grupoNuevo);
+	    for (Usuario i : integrantes) {
+	    	usuarioService.agregarUnGrupo(i.getUsuario(), grupoNuevo);
+	    }
+	    usuarioService.actualizar(usuario);
 
-		usuarioService.actualizar(usuario);
-		//grupoService.actualizar(grupo);
-		System.out.print("el usuario " + username + " creo el grupo " + grupo.getNombre());
-
-		return new ResponseEntity<Grupo>(grupoService.actualizar(grupo), HttpStatus.CREATED);
+	    return new ResponseEntity<>(grupoNuevo, HttpStatus.CREATED);
 	}
 	
 	
@@ -79,8 +116,8 @@ public class GrupoController {
 				return new ResponseEntity<Grupo>(HttpStatus.NOT_FOUND);
 			}
 			currentGrupo.setNombre(grupoDTO.getNombre());
-			currentGrupo.setImagen(grupoDTO.getImagen());
-			currentGrupo.setCategoria(grupoDTO.getCategoria());
+			
+			currentGrupo.setCategoria(categoriaService.recuperarPorId(grupoDTO.getCategoria()));
 			grupoService.actualizar(currentGrupo);
 			return new ResponseEntity<Grupo>(currentGrupo, HttpStatus.OK);
 		}

@@ -108,4 +108,18 @@ public class UsuarioService {
 		return amigos.orElse(null);
 	}
 	
+	public Usuario agregarAmigo(String usuario, long idAmigo) {
+		Optional<Usuario> optionalUsuario = usuarioRepository.findByUsuario(usuario);
+		Optional<Usuario> optionalAmigo = usuarioRepository.findById(idAmigo);
+		List<Usuario> amigos = optionalUsuario.get().getAmigos();
+		if (amigos.contains(optionalAmigo.get())){
+			System.out.print("el amigo ya esta en la lista");
+			return optionalUsuario.get();
+		}
+		amigos.add(optionalAmigo.get());
+		optionalUsuario.get().setAmigos(amigos);
+		return usuarioRepository.save(optionalUsuario.get());
+		
+	}
+	
 }
